@@ -1,0 +1,113 @@
+﻿//HintName: BinarySerializer.TestNamespaceSubjectValueSerializer.g.cs
+
+/*
+ *  EZBinarySerializer serialize objects while maintaining AOT compatibility.
+ *  Copyright (C) 2026 Seth Adam Denner
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+namespace EZBinarySerializer.ValueSerializers {
+    class TestNamespaceSubjectValueSerializer : IValueSerializer<global::TestNamespace.Subject> {
+        public static int FromBinary(Span<byte> data, out global::TestNamespace.Subject value) {
+            int cursor = 0;
+            cursor += EZBinarySerializer.Tests.BinarySerializer.FromBinary(
+                data[
+                    cursor..
+                ],
+                out int size
+            );
+            cursor += EZBinarySerializer.Tests.BinarySerializer.FromBinary(
+                data[
+                    cursor..
+                ],
+                out string typeName
+            );
+            cursor += SystemStringValueSerializer.FromBinary(
+                data[cursor..],
+                out global::System.String __ez__title
+            );
+            cursor += TestNamespaceBookSystemCollectionsGenericListValueSerializer.FromBinary(
+                data[cursor..],
+                out global::System.Collections.Generic.List<global::TestNamespace.Book> __ez__books
+            );
+            value = new() {
+                Title = __ez__title,
+                Books = __ez__books,
+            };
+
+            return cursor;
+        }
+        public static Memory<byte> ToBinary(global::TestNamespace.Subject value) {
+            int size = 0;
+            List<Memory<byte>> bytesList = [];
+            bytesList.Add(SystemStringValueSerializer.ToBinary(
+                value.Title
+            ));
+            size += bytesList[bytesList.Count - 1].Length;
+            bytesList.Add(TestNamespaceBookSystemCollectionsGenericListValueSerializer.ToBinary(
+                value.Books
+            ));
+            size += bytesList[bytesList.Count - 1].Length;
+            var typeNameBytes = EZBinarySerializer.Tests.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
+            size += typeNameBytes.Length;
+            size += sizeof(int);
+            var sizeBytes = EZBinarySerializer.Tests.BinarySerializer.ToBinary(size);
+            Memory<byte> data = new byte[size];
+            int cursor = 0;
+            sizeBytes.CopyTo(
+                data[cursor..(cursor += sizeBytes.Length)]
+            );
+            typeNameBytes.CopyTo(
+                data[cursor..(cursor += typeNameBytes.Length)]
+            );
+            foreach (var bytes in bytesList) {
+                bytes.CopyTo(
+                    data[cursor..(cursor += bytes.Length)]
+                );
+            }
+            
+            return data;
+        }
+    }
+}
+namespace EZBinarySerializer.Tests {
+    public partial class BinarySerializer {
+        public static int FromBinary(Span<byte> data, out global::TestNamespace.Subject value) {
+            return EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.FromBinary(data, out value);
+        }
+
+        public static Memory<byte> ToBinary(global::TestNamespace.Subject value) {
+            return EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.ToBinary(value);
+        }
+    }
+}
+namespace TestNamespace {
+    public partial class Subject : EZBinarySerializer.IBinarySerializable {
+        public virtual string FullyQualifiedTypeName {
+            get {
+                return"global::TestNamespace.Subject";
+            }
+        }
+        public static Memory<byte> ToBinary(EZBinarySerializer.IBinarySerializable value) {
+            return EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.ToBinary((global::TestNamespace.Subject)value);
+        }
+
+        public static int FromBinary(Span<byte> data, out EZBinarySerializer.IBinarySerializable value) {
+            int size = EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.FromBinary(data, out global::TestNamespace.Subject result);
+            value = (EZBinarySerializer.IBinarySerializable)result;
+            return size;
+        }
+    }
+}

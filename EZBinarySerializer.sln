@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36908.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EZBinarySerializer", "EZBinarySerializer\EZBinarySerializer.csproj", "{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EZBinarySerializer.Tests", "Tests\EZBinarySerializer.Tests\EZBinarySerializer.Tests.csproj", "{F9090579-C64A-4D83-97D8-47981C4BD924}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Debug|x64.Build.0 = Debug|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Debug|x86.Build.0 = Debug|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Release|x64.ActiveCfg = Release|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Release|x64.Build.0 = Release|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{ECDD2B41-CDB3-4B19-9E85-F246C58122BA}.Release|x86.Build.0 = Release|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Debug|x64.Build.0 = Debug|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Debug|x86.Build.0 = Debug|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Release|x64.ActiveCfg = Release|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Release|x64.Build.0 = Release|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9090579-C64A-4D83-97D8-47981C4BD924}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F9090579-C64A-4D83-97D8-47981C4BD924} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C99D98A-AED2-4C83-A686-2E3DC2FDE9E9}
+	EndGlobalSection
+EndGlobal
