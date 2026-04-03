@@ -18,7 +18,7 @@
 using System.Text;
 using Microsoft.CodeAnalysis;
 
-namespace EZBinarySerializerSourceGeneration {
+namespace EZBinarySerializer {
     internal class BinarySerializableTypeInfo {
         public readonly string TypeName;
         public readonly string ContainingNamespaceName;
@@ -30,7 +30,8 @@ namespace EZBinarySerializerSourceGeneration {
         public readonly bool IsAbstract;
         public readonly BinarySerializableTypeInfo? AbstractParentTypeInfo;
         public readonly BinarySerializableTypeInfo? EnumUnderlyingType;
-
+        public readonly bool IsArray;
+ 
         public BinarySerializableTypeInfo Value {
             get {
                 return this;
@@ -48,6 +49,21 @@ namespace EZBinarySerializerSourceGeneration {
             IsAbstract = typeSymbol.IsAbstract;
             AbstractParentTypeInfo = GetAbstractParentTypeInfo(typeSymbol);
             EnumUnderlyingType = GetEnumUnderlyingType(typeSymbol);
+            IsArray = false;
+        }
+        public BinarySerializableTypeInfo(IArrayTypeSymbol arraySymbol) {
+            var typeSymbol = (INamedTypeSymbol)arraySymbol.ElementType;
+            TypeName = GetTypeName(typeSymbol);
+            ContainingNamespaceName = GetFullNamespace(typeSymbol);
+            TypeFlavor = GetTypeFlavor(typeSymbol);
+            TypeParameterNames = GetTypeParameterNames(typeSymbol);
+            TypeParameterConstraintString = GetTypeParameterConstraintString(typeSymbol);
+            TypeArguments = GetTypeArguments(typeSymbol);
+            SerializableMemberInfo = GetSerializableMemberInfo(typeSymbol);
+            IsAbstract = typeSymbol.IsAbstract;
+            AbstractParentTypeInfo = GetAbstractParentTypeInfo(typeSymbol);
+            EnumUnderlyingType = GetEnumUnderlyingType(typeSymbol);
+            IsArray = true;
         }
 
         private string GetTypeName(INamedTypeSymbol typeSymbol) {
@@ -137,6 +153,9 @@ namespace EZBinarySerializerSourceGeneration {
             builder.Append(ContainingNamespaceName);
             builder.Append(".");
             builder.Append(TypeName);
+            if (IsArray) {
+                builder.Append("[]");
+            }
             return builder.ToString();
         }
 
@@ -173,6 +192,7 @@ namespace EZBinarySerializerSourceGeneration {
                 string.Empty, [
                     GetTypeArgumentString(),
                     GetFullyQualifiedTypeName(),
+                    IsArray ? "Array" : string.Empty,
                     "ValueSerializer"
                 ]
             ).Replace(
@@ -187,12 +207,18 @@ namespace EZBinarySerializerSourceGeneration {
                 ".", string.Empty
             ).Replace(
                 "global::", string.Empty
+            ).Replace(
+                "[]", string.Empty
             );
         }
 
         private static BinarySerializableTypeInfo? GetAbstractParentTypeInfo(INamedTypeSymbol typeSymbol) {
             if (typeSymbol.BaseType is INamedTypeSymbol parentTypeSymbol) {
-                if (parentTypeSymbol.TypeKind == TypeKind.Interface) {
+                if (
+                    parentTypeSymbol.Name == "Object" ||
+                    parentTypeSymbol.Name == "ValueType" ||
+                    parentTypeSymbol.TypeKind == TypeKind.Interface
+                ) {
                     return null;
                 } else {
                     return new(parentTypeSymbol);
@@ -204,20 +230,26 @@ namespace EZBinarySerializerSourceGeneration {
 
         private static List<BinarySerializablePropertyInfo> GetSerializableMemberInfo(INamedTypeSymbol typeSymbol) {
             List<BinarySerializablePropertyInfo> result = [];
+
+            if (!typeSymbol.GetAttributes().Any(
+                (att) =>
+                    att.AttributeClass is INamedTypeSymbol attributeSymbol && (
+                        attributeSymbol.Name.Equals("BinarySerializable") ||
+                        attributeSymbol.Name.Equals("BinarySerializableAttribute")
+                    )
+                )
+            ) {
+                return result;
+            }
+
             var members = typeSymbol.GetMembers();
             foreach (var memberSymbol in members) {
-                if (
-                    memberSymbol is IPropertySymbol propertySymbol
-                ) {
+                if (memberSymbol is IPropertySymbol propertySymbol) {
                     if (
                         propertySymbol.IsWriteOnly ||
                         propertySymbol.IsStatic ||
                         propertySymbol.DeclaredAccessibility != Accessibility.Public
                     ) {
-                        continue;
-                    }
-
-                    if (propertySymbol.Type is not INamedTypeSymbol propertyTypeSymbol) {
                         continue;
                     }
 
@@ -227,29 +259,27 @@ namespace EZBinarySerializerSourceGeneration {
                                 attributeSymbol.Name.Equals("BinarySerializerIgnore") ||
                                 attributeSymbol.Name.Equals("BinarySerializerIgnoreAttribute")
                             )
-                    )) {
-                        continue;
-                    }
-
-                    if (propertySymbol.Type is IArrayTypeSymbol arrayTypeSymbol) {
-                        propertyTypeSymbol = (INamedTypeSymbol)arrayTypeSymbol.ElementType;
-                    }
-
-                    result.Add(new(
-                        propertySymbol.Name,
-                        new(propertyTypeSymbol)
-                    ));
-                } else if (
-                      memberSymbol is IFieldSymbol fieldSymbol
-                  ) {
-                    if (
-                        fieldSymbol.DeclaredAccessibility != Accessibility.Public ||
-                        fieldSymbol.IsStatic
+                        )
                     ) {
                         continue;
                     }
 
-                    if (fieldSymbol.Type is not INamedTypeSymbol fieldTypeSymbol) {
+                    if (propertySymbol.Type is INamedTypeSymbol propertyTypeSymbol) {
+                        result.Add(new(
+                            propertySymbol.Name,
+                            new(propertyTypeSymbol)
+                        ));
+                    } else if (propertySymbol.Type is IArrayTypeSymbol arraySymbol) {
+                        result.Add(new(
+                            propertySymbol.Name,
+                            new(arraySymbol)
+                        ));
+                    }
+                } else if (memberSymbol is IFieldSymbol fieldSymbol) {
+                    if (
+                        fieldSymbol.DeclaredAccessibility != Accessibility.Public ||
+                        fieldSymbol.IsStatic
+                    ) {
                         continue;
                     }
 
@@ -263,14 +293,17 @@ namespace EZBinarySerializerSourceGeneration {
                         continue;
                     }
 
-                    if (fieldSymbol.Type is IArrayTypeSymbol arrayTypeSymbol) {
-                        fieldTypeSymbol = (INamedTypeSymbol)arrayTypeSymbol.ElementType;
+                    if (fieldSymbol.Type is INamedTypeSymbol fieldTypeSymbol) {
+                        result.Add(new(
+                            fieldSymbol.Name,
+                            new(fieldTypeSymbol)
+                        ));
+                    } else if (fieldSymbol.Type is IArrayTypeSymbol arraySymbol) {
+                        result.Add(new(
+                            fieldSymbol.Name,
+                            new(arraySymbol)
+                        ));
                     }
-
-                    result.Add(new(
-                        fieldSymbol.Name,
-                        new(fieldTypeSymbol)
-                    ));
                 }
             }
             return result;

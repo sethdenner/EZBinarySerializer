@@ -21,7 +21,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
-namespace EZBinarySerializerSourceGeneration {
+namespace EZBinarySerializer {
     internal class ArrayValueSerializerGenerator {
         private string? AssemblyName = null;
         private static List<string> GeneratedFileNames = [];

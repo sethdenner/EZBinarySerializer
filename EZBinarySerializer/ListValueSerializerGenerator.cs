@@ -24,7 +24,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
-namespace EZBinarySerializerSourceGeneration {
+namespace EZBinarySerializer {
     internal class ListValueSerializerGenerator {
         private string? AssemblyName = null;
         private static List<string> GeneratedFileNames = [];
@@ -78,14 +78,16 @@ namespace EZBinarySerializerSourceGeneration {
                 typeDeclarationSyntax = fieldSyntax.Parent as TypeDeclarationSyntax;
             }
 
-            if (memberTypeSyntax is not GenericNameSyntax) {
+            if (memberTypeSyntax is not GenericNameSyntax || typeDeclarationSyntax is null) {
                 return false;
             }
+
             if (!memberTypeSyntax.GetText().ToString().Contains("List")) {
                 return false;
             }
+
             if (
-                null == typeDeclarationSyntax?.AttributeLists ||
+                null == typeDeclarationSyntax.AttributeLists ||
                 !typeDeclarationSyntax.AttributeLists.Any(
                     s => s.GetText()
                     .ToString()

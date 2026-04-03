@@ -2,4 +2,6 @@
 obj
 bin
 Tests/EZBinarySerializer.Tests/Snapshots/*.received.cs
+packages
+artifacts
 

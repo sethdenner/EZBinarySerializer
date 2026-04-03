@@ -22,7 +22,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
-namespace EZBinarySerializerSourceGeneration {
+namespace EZBinarySerializer {
     internal class BinarySerializableValueSerializerGenerator {
         public string? AssemblyName = null;
         public List<BinarySerializableTypeInfo> BinarySerializableTypes = [];
@@ -363,12 +363,13 @@ namespace {0} {{
                 builder.AppendFormat(@"
         public {1}string FullyQualifiedTypeName {{
             get {{
-                return""{0}"";
+                return ""{0}"";
             }}
         }}",
                     info.Value.GetFullyQualifiedTypeName(), (
-                        info.Value.AbstractParentTypeInfo?.TypeName != "Object" &&
-                        info.Value.AbstractParentTypeInfo?.TypeName != "ValueType"
+                        info.Value.AbstractParentTypeInfo != null &&
+                        info.Value.AbstractParentTypeInfo.TypeName != "Object" &&
+                        info.Value.AbstractParentTypeInfo.TypeName != "ValueType"
                     ) ? "override " : info.Value.TypeFlavor.Equals("class") ? "virtual " : string.Empty
 
                 );
@@ -387,8 +388,9 @@ namespace {0} {{
 }}",
                     info.Value.GetValueSerializerName(),
                     info.Value.GetFullyQualifiedTypeName(), (
-                        info.Value.AbstractParentTypeInfo?.TypeName != "Object" &&
-                        info.Value.AbstractParentTypeInfo?.TypeName != "ValueType" &&
+                        info.Value.AbstractParentTypeInfo != null &&
+                        info.Value.AbstractParentTypeInfo.TypeName != "Object" &&
+                        info.Value.AbstractParentTypeInfo.TypeName != "ValueType" &&
                         !info.Value.TypeFlavor.Equals("interface")
                     ) ? "new " : string.Empty,
                     AssemblyName,

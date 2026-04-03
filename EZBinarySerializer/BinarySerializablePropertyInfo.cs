@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-namespace EZBinarySerializerSourceGeneration {
+namespace EZBinarySerializer {
     internal readonly record struct BinarySerializablePropertyInfo {
         public readonly string MemberName;
         public readonly BinarySerializableTypeInfo MemberTypeInfo;

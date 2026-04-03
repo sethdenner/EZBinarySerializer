@@ -97,7 +97,7 @@ namespace TestNamespace {
     public partial class Subject : global::EZBinarySerializer.IBinarySerializable {
         public virtual string FullyQualifiedTypeName {
             get {
-                return"global::TestNamespace.Subject";
+                return "global::TestNamespace.Subject";
             }
         }
         public static Memory<byte> ToBinary(global::EZBinarySerializer.IBinarySerializable value) {

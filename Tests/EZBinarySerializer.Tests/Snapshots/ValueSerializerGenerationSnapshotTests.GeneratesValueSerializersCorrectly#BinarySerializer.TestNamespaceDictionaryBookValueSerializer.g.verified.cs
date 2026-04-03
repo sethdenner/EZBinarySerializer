@@ -88,7 +88,7 @@ namespace TestNamespace {
     public partial class DictionaryBook : global::EZBinarySerializer.IBinarySerializable {
         public override string FullyQualifiedTypeName {
             get {
-                return"global::TestNamespace.DictionaryBook";
+                return "global::TestNamespace.DictionaryBook";
             }
         }
         public new static Memory<byte> ToBinary(global::EZBinarySerializer.IBinarySerializable value) {

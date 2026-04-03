@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-namespace EZBinarySerializerSourceGeneration {
+namespace EZBinarySerializer {
     internal class BinarySerializerStaticSourceHelper {
         private readonly string? AssemblyName;
         public BinarySerializerStaticSourceHelper(string? assemblyName) {
@@ -723,7 +723,7 @@ using System.Text;
 
 namespace EZBinarySerializer {
     public interface IBinarySerializable {
-        public abstract string FullyQualifiedTypeName {
+        public string FullyQualifiedTypeName {
             get;
         }
         public static abstract Memory<byte> ToBinary(IBinarySerializable value);

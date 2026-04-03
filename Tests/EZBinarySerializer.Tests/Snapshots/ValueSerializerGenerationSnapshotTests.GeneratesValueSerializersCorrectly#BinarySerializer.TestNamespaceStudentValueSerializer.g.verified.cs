@@ -42,9 +42,14 @@ namespace EZBinarySerializer.ValueSerializers {
                 data[cursor..],
                 out global::System.Int32 __ez__year
             );
+            cursor += TestNamespaceSubjectArrayValueSerializer.FromBinary(
+                data[cursor..],
+                out global::TestNamespace.Subject[] __ez__subjects
+            );
             value = new() {
                 Name = __ez__name,
                 Year = __ez__year,
+                Subjects = __ez__subjects,
             };
 
             return cursor;
@@ -58,6 +63,10 @@ namespace EZBinarySerializer.ValueSerializers {
             size += bytesList[bytesList.Count - 1].Length;
             bytesList.Add(SystemInt32ValueSerializer.ToBinary(
                 value.Year
+            ));
+            size += bytesList[bytesList.Count - 1].Length;
+            bytesList.Add(TestNamespaceSubjectArrayValueSerializer.ToBinary(
+                value.Subjects
             ));
             size += bytesList[bytesList.Count - 1].Length;
             var typeNameBytes = global::EZBinarySerializer.Tests.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
@@ -97,7 +106,7 @@ namespace TestNamespace {
     public partial class Student : global::EZBinarySerializer.IBinarySerializable {
         public virtual string FullyQualifiedTypeName {
             get {
-                return"global::TestNamespace.Student";
+                return "global::TestNamespace.Student";
             }
         }
         public static Memory<byte> ToBinary(global::EZBinarySerializer.IBinarySerializable value) {

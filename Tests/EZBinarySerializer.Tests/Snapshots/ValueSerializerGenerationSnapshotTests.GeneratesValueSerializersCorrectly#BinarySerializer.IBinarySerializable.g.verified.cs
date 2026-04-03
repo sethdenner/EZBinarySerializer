@@ -22,7 +22,7 @@ using System.Text;
 
 namespace EZBinarySerializer {
     public interface IBinarySerializable {
-        public abstract string FullyQualifiedTypeName {
+        public string FullyQualifiedTypeName {
             get;
         }
         public static abstract Memory<byte> ToBinary(IBinarySerializable value);

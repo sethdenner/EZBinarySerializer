@@ -18,10 +18,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
-using System.Reflection;
 using System.Text;
 
-namespace EZBinarySerializerSourceGeneration {
+namespace EZBinarySerializer {
     [Generator]
     public class BinarySerializerGenerator : IIncrementalGenerator {
         public static ITypeSymbol? GetValidMemberTypeSymbol(GeneratorSyntaxContext context) {

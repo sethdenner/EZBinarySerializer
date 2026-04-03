@@ -21,7 +21,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
-namespace EZBinarySerializerSourceGeneration {
+namespace EZBinarySerializer {
     internal class SpanValueSerializerGenerator {
         private string? AssemblyName = null;
         private static List<string> GeneratedFileNames = [];
@@ -57,15 +57,28 @@ namespace EZBinarySerializerSourceGeneration {
         }
 
         public static bool IsSyntaxTargetForGeneration(SyntaxNode node) {
-            if (node is not PropertyDeclarationSyntax propertySyntax) {
+            TypeSyntax? memberTypeSyntax = null;
+            TypeDeclarationSyntax? typeDeclarationSyntax = null;
+            SyntaxList<AttributeListSyntax> memberAttributeLists;
+            SyntaxTokenList memberModifiers = new();
+            if (node is PropertyDeclarationSyntax propertySyntax) {
+                memberTypeSyntax = propertySyntax.Type;
+                memberModifiers = propertySyntax.Modifiers;
+                memberAttributeLists = propertySyntax.AttributeLists;
+                typeDeclarationSyntax = propertySyntax.Parent as TypeDeclarationSyntax;
+            } else if (node is FieldDeclarationSyntax fieldSyntax) {
+                memberTypeSyntax = fieldSyntax.Declaration.Type;
+                memberAttributeLists = fieldSyntax.AttributeLists;
+                memberModifiers = fieldSyntax.Modifiers;
+                typeDeclarationSyntax = fieldSyntax.Parent as TypeDeclarationSyntax;
+            }
+            if (memberTypeSyntax is null || typeDeclarationSyntax is null) {
                 return false;
             }
-            if (propertySyntax.Parent is not TypeDeclarationSyntax typeSyntax) {
-                return false;
-            }
+
             if (
-                null == typeSyntax.AttributeLists ||
-                !typeSyntax.AttributeLists.Any(
+                null == typeDeclarationSyntax.AttributeLists ||
+                !typeDeclarationSyntax.AttributeLists.Any(
                     s => s.GetText()
                     .ToString()
                     .Contains(
@@ -75,7 +88,7 @@ namespace EZBinarySerializerSourceGeneration {
             ) {
                 return false;
             }
-            if (propertySyntax.AttributeLists.Any(
+            if (memberAttributeLists.Any(
                 s => s.GetText()
                 .ToString()
                 .Contains(
@@ -84,12 +97,12 @@ namespace EZBinarySerializerSourceGeneration {
             )) {
                 return false;
             }
-            if (typeSyntax.Modifiers.Any(
+            if (typeDeclarationSyntax.Modifiers.Any(
                 s => s.Text == "abstract"
             )) {
                 return false;
             }
-            if (!propertySyntax.Modifiers.Any(
+            if (!memberModifiers.Any(
                 s => s.Text == "public"
             )) {
                 return false;

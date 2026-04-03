@@ -88,7 +88,7 @@ namespace TestNamespace {
     public partial class Library : global::EZBinarySerializer.IBinarySerializable {
         public virtual string FullyQualifiedTypeName {
             get {
-                return"global::TestNamespace.Library";
+                return "global::TestNamespace.Library";
             }
         }
         public static Memory<byte> ToBinary(global::EZBinarySerializer.IBinarySerializable value) {

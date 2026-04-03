@@ -15,19 +15,13 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-namespace EZBinarySerializer {
-    internal class BinarySerializerMethodInfo {
-        public readonly BinarySerializableTypeInfo ValueType;
-        public readonly string FullyQualifiedSerializerMethodName;
-        public readonly string FullyQualifiedDeserializerMethodName;
-        public BinarySerializerMethodInfo(
-            BinarySerializableTypeInfo valueType,
-            string fullyQualifiedSerializerMethodName,
-            string fullyQualifiedDeserializerMethodName
-        ) {
-            ValueType = valueType;
-            FullyQualifiedSerializerMethodName = fullyQualifiedSerializerMethodName;
-            FullyQualifiedDeserializerMethodName = fullyQualifiedDeserializerMethodName;
+using System.Numerics;
+
+namespace EZBinarySerializer.IntegrationTests.Model {
+    [BinarySerializable]
+    public partial interface IBuilding : IEquatable<IBuilding> {
+        public Vector2 GeoCoordinates {
+            get; set;
         }
     }
 }
