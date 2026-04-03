@@ -1,4 +1,4 @@
-[![GitHub stars](https://img.shields.io/github/stars/toeverything/AFFiNE?style=social)](https://github.com/toeverything/AFFiNE)
+[![GitHub stars](https://img.shields.io/github/stars/sethdenner/EZBinarySerializer?style=social)](https://github.com/sethdenner/EZBinarySerializer)
 [![License](https://img.shields.io/badge/License-AGPLv3-green.svg)](https://opensource.org/license/agpl-3-0)
 
 ## 🚀 Quick Start
