@@ -15,48 +15,34 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+using EZBinarySerializer;
 using System.Security.Cryptography;
 
-namespace EZBinarySerializer.IntegrationTests.Model {
+namespace IntegrationTests.Model {
     [BinarySerializable]
-    public partial class District : IEquatable<District> {
-        public List<IBuilding> Buildings = [];
+    public abstract partial class Book : IEquatable<Book> {
+        public string Title = string.Empty;
+        public abstract string Text { get; set; }
+        public float PercentageRead = 0.0f;
 
-        public bool Equals(District? other) {
-            if (
-                Buildings.Count != other?.Buildings.Count
-            ) {
-                return false;
+        public static bool operator ==(Book book1, Book book2) {
+            if (book1 is null) {
+                return book2 is null;
             }
 
-            for (int i = 0; i < Buildings.Count; ++i) {
-                var building = Buildings[i];
-                var otherBuilding = other?.Buildings[i];
-                if (!building.Equals(otherBuilding)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-        public static bool operator ==(District district1, District district2) {
-            if (district1 is null) {
-                return district2 is null;
-            }
-
-            return district1.Equals(district2);
+            return book1.Equals(book2);
         }
 
-        public static bool operator !=(District district1, District district2) {
-            if (district1 is null) {
-                return district2 is not null;
+        public static bool operator !=(Book book1, Book book2) {
+            if (book1 is null) {
+                return book2 is not null;
             }
 
-            return !district1.Equals(district2);
+            return !book1.Equals(book2);
         }
 
         public override bool Equals(object? obj) {
-            return Equals(obj as District);
+            return (obj is Book book && book.Equals(this));
         }
 
         public override int GetHashCode() {
@@ -66,5 +52,7 @@ namespace EZBinarySerializer.IntegrationTests.Model {
                 ).AsSpan()[..sizeof(int)]
             );
         }
+
+        public abstract bool Equals(Book? other);
     }
 }

@@ -1,7 +1,6 @@
-﻿using EZBinarySerializer.EZBinarySerializer;
-using EZBinarySerializer.IntegrationTests.Model;
-
-namespace EZBinarySerializer.IntegrationTests;
+﻿using EZBinarySerializer;
+using IntegrationTests.Model;
+namespace IntegrationTests;
 
 public class SampleModelTests {
     [Fact]
@@ -62,13 +61,13 @@ public class SampleModelTests {
             ]
         };
 
-        var data = EZBinarySerializer.IntegrationTests.BinarySerializer.ToBinary(district);
-        int bytesRead = EZBinarySerializer.IntegrationTests.BinarySerializer.FromBinary(
+        var data = District.ToBinary(district);
+        int bytesRead = District.FromBinary(
             data.Span,
-            out District deserialized
+            out IBinarySerializable deserialized
         );
 
         Assert.Equal(data.Length, bytesRead);
-        Assert.Equal(district, deserialized);
+        Assert.Equal(district, (District)deserialized);
     }
 }

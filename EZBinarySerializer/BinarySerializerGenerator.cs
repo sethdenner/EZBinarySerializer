@@ -74,8 +74,8 @@ namespace EZBinarySerializer {
             */
 
             IncrementalValueProvider<string?> assemblyName = context.CompilationProvider.Select((
-                Compilation c,
-                CancellationToken _
+                c,
+                _
             ) => {
                 // Grab the values from Compilation and CompilationOptions
                 return c.AssemblyName;

@@ -15,12 +15,12 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-using System.Numerics;
+using EZBinarySerializer;
 
-namespace EZBinarySerializer.IntegrationTests.Model {
+namespace IntegrationTests.Model {
     [BinarySerializable]
-    public partial interface IBuilding : IEquatable<IBuilding> {
-        public Vector2 GeoCoordinates {
+    public partial interface IPerson : IEquatable<IPerson> {
+        public string Name {
             get; set;
         }
     }

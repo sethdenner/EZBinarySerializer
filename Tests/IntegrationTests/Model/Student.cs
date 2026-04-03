@@ -15,7 +15,10 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-namespace EZBinarySerializer.IntegrationTests.Model {
+using EZBinarySerializer;
+using System.Security.Cryptography;
+
+namespace IntegrationTests.Model {
     [BinarySerializable]
     public partial class Student : IPerson {
         public string Name { get; set; } = string.Empty;
@@ -43,7 +46,11 @@ namespace EZBinarySerializer.IntegrationTests.Model {
         }
 
         public override int GetHashCode() {
-            throw new NotImplementedException();
+            return BitConverter.ToInt32(
+                MD5.HashData(
+                    ToBinary(this).ToArray()
+                ).AsSpan()[..sizeof(int)]
+            );
         }
 
         public bool Equals(IPerson? other) {
