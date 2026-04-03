@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0AB3BF05
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3ACE2862-A550-47EC-8EEA-FA07D3273A51}"
 	ProjectSection(SolutionItems) = preProject
-		build.ps1 = build.ps1
+		build-nuget.ps1 = build-nuget.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapshotTests", "Tests\SnapshotTests\SnapshotTests.csproj", "{26057FAB-88DE-F109-0681-520015F5CFFD}"
