@@ -139,13 +139,13 @@ namespace EZBinarySerializer.ValueSerializers {{
     class {0}{3} : IValueSerializer<{1}{3}> {4}{{
         public static int FromBinary(Span<byte> data, out {1}{3} value) {{
             int cursor = 0;
-            cursor += EZBinarySerializer.{2}.BinarySerializer.FromBinary(
+            cursor += global::EZBinarySerializer.{2}.BinarySerializer.FromBinary(
                 data[
                     cursor..
                 ],
                 out int size
             );
-            cursor += EZBinarySerializer.{2}.BinarySerializer.FromBinary(
+            cursor += global::EZBinarySerializer.{2}.BinarySerializer.FromBinary(
                 data[
                     cursor..
                 ],
@@ -234,10 +234,10 @@ namespace EZBinarySerializer.ValueSerializers {{
                 }
             }
             builder.AppendFormat(@"
-            var typeNameBytes = EZBinarySerializer.{0}.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
+            var typeNameBytes = global::EZBinarySerializer.{0}.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
             size += typeNameBytes.Length;
             size += sizeof(int);
-            var sizeBytes = EZBinarySerializer.{0}.BinarySerializer.ToBinary(size);
+            var sizeBytes = global::EZBinarySerializer.{0}.BinarySerializer.ToBinary(size);
             Memory<byte> data = new byte[size];
             int cursor = 0;
             sizeBytes.CopyTo(
@@ -262,11 +262,11 @@ namespace EZBinarySerializer.ValueSerializers {{
 namespace EZBinarySerializer.{2} {{
     public partial class BinarySerializer {{
         public static int FromBinary{3}(Span<byte> data, out {0}{3} value) {4}{{
-            return EZBinarySerializer.ValueSerializers.{1}.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.{1}.FromBinary(data, out value);
         }}
 
         public static Memory<byte> ToBinary{3}({0}{3} value) {4}{{
-            return EZBinarySerializer.ValueSerializers.{1}.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.{1}.ToBinary(value);
         }}
     }}
 }}",
@@ -296,7 +296,7 @@ namespace EZBinarySerializer.ValueSerializers {{
     class {0} : IValueSerializer<{1}> {{
         public static int FromBinary(Span<byte> data, out {1} value) {{
             string typeName = IBinarySerializable.PeekTypeName(data);
-            int size = EZBinarySerializer.{2}.BinarySerializer.DeserializerMethodsByTypeName[typeName](
+            int size = global::EZBinarySerializer.{2}.BinarySerializer.DeserializerMethodsByTypeName[typeName](
                 data,
                 out IBinarySerializable serializable
             );
@@ -305,8 +305,8 @@ namespace EZBinarySerializer.ValueSerializers {{
         }}
 
         public static Memory<byte> ToBinary({1} value) {{
-            return EZBinarySerializer.{2}.BinarySerializer.SerializerMethodsByTypeName[value.FullyQualifiedTypeName](
-                value as EZBinarySerializer.IBinarySerializable
+            return global::EZBinarySerializer.{2}.BinarySerializer.SerializerMethodsByTypeName[value.FullyQualifiedTypeName](
+                value as global::EZBinarySerializer.IBinarySerializable
             );
         }}
     }}
@@ -314,11 +314,11 @@ namespace EZBinarySerializer.ValueSerializers {{
 namespace EZBinarySerializer.{2} {{
     public partial class BinarySerializer {{
         public static int FromBinary(Span<byte> data, out {1} value) {{
-            return EZBinarySerializer.ValueSerializers.{0}.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.{0}.FromBinary(data, out value);
         }}
 
         public static Memory<byte> ToBinary({1} value) {{
-            return EZBinarySerializer.ValueSerializers.{0}.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.{0}.ToBinary(value);
         }}
     }}
 }}",
@@ -352,7 +352,7 @@ namespace {0} {{
                 info.Value.TypeFlavor,
                 info.Value.TypeName,
                 info.Value.GetTypeParameterString(),
-                info.Value.TypeFlavor.Equals("interface") ? string.Empty : " : EZBinarySerializer.IBinarySerializable",
+                info.Value.TypeFlavor.Equals("interface") ? string.Empty : " : global::EZBinarySerializer.IBinarySerializable",
                 info.Value.TypeParameterConstraintString
             );
             if (info.IsAbstract) {
@@ -374,13 +374,13 @@ namespace {0} {{
                 );
             }
             builder.AppendFormat(@"
-        public {2}static Memory<byte> ToBinary(EZBinarySerializer.IBinarySerializable value) {{
-            return EZBinarySerializer.ValueSerializers.{0}{4}.ToBinary(({1}{4})value);
+        public {2}static Memory<byte> ToBinary(global::EZBinarySerializer.IBinarySerializable value) {{
+            return global::EZBinarySerializer.ValueSerializers.{0}{4}.ToBinary(({1}{4})value);
         }}
 
-        public {2}static int FromBinary(Span<byte> data, out EZBinarySerializer.IBinarySerializable value) {{
-            int size = EZBinarySerializer.ValueSerializers.{0}{4}.FromBinary(data, out {1}{4} result);
-            value = (EZBinarySerializer.IBinarySerializable)result;
+        public {2}static int FromBinary(Span<byte> data, out global::EZBinarySerializer.IBinarySerializable value) {{
+            int size = global::EZBinarySerializer.ValueSerializers.{0}{4}.FromBinary(data, out {1}{4} result);
+            value = (global::EZBinarySerializer.IBinarySerializable)result;
             return size;
         }}
     }}

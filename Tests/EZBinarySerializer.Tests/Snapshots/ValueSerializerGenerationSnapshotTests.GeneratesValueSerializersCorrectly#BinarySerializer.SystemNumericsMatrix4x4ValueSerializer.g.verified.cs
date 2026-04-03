@@ -184,11 +184,11 @@ namespace EZBinarySerializer.ValueSerializers {
 namespace EZBinarySerializer.Tests {
     public partial class BinarySerializer {
         public static int FromBinary(Span<byte> data, out Matrix4x4 value) {
-            return EZBinarySerializer.ValueSerializers.SystemNumericsMatrix4x4ValueSerializer.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.SystemNumericsMatrix4x4ValueSerializer.FromBinary(data, out value);
         }
 
         public static Memory<byte> ToBinary(Matrix4x4 value) {
-            return EZBinarySerializer.ValueSerializers.SystemNumericsMatrix4x4ValueSerializer.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.SystemNumericsMatrix4x4ValueSerializer.ToBinary(value);
         }
     }
 }

@@ -22,13 +22,13 @@ namespace EZBinarySerializer.ValueSerializers {
     class TestNamespaceSubjectValueSerializer : IValueSerializer<global::TestNamespace.Subject> {
         public static int FromBinary(Span<byte> data, out global::TestNamespace.Subject value) {
             int cursor = 0;
-            cursor += EZBinarySerializer.Tests.BinarySerializer.FromBinary(
+            cursor += global::EZBinarySerializer.Tests.BinarySerializer.FromBinary(
                 data[
                     cursor..
                 ],
                 out int size
             );
-            cursor += EZBinarySerializer.Tests.BinarySerializer.FromBinary(
+            cursor += global::EZBinarySerializer.Tests.BinarySerializer.FromBinary(
                 data[
                     cursor..
                 ],
@@ -60,10 +60,10 @@ namespace EZBinarySerializer.ValueSerializers {
                 value.Books
             ));
             size += bytesList[bytesList.Count - 1].Length;
-            var typeNameBytes = EZBinarySerializer.Tests.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
+            var typeNameBytes = global::EZBinarySerializer.Tests.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
             size += typeNameBytes.Length;
             size += sizeof(int);
-            var sizeBytes = EZBinarySerializer.Tests.BinarySerializer.ToBinary(size);
+            var sizeBytes = global::EZBinarySerializer.Tests.BinarySerializer.ToBinary(size);
             Memory<byte> data = new byte[size];
             int cursor = 0;
             sizeBytes.CopyTo(
@@ -85,28 +85,28 @@ namespace EZBinarySerializer.ValueSerializers {
 namespace EZBinarySerializer.Tests {
     public partial class BinarySerializer {
         public static int FromBinary(Span<byte> data, out global::TestNamespace.Subject value) {
-            return EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.FromBinary(data, out value);
         }
 
         public static Memory<byte> ToBinary(global::TestNamespace.Subject value) {
-            return EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.ToBinary(value);
         }
     }
 }
 namespace TestNamespace {
-    public partial class Subject : EZBinarySerializer.IBinarySerializable {
+    public partial class Subject : global::EZBinarySerializer.IBinarySerializable {
         public virtual string FullyQualifiedTypeName {
             get {
                 return"global::TestNamespace.Subject";
             }
         }
-        public static Memory<byte> ToBinary(EZBinarySerializer.IBinarySerializable value) {
-            return EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.ToBinary((global::TestNamespace.Subject)value);
+        public static Memory<byte> ToBinary(global::EZBinarySerializer.IBinarySerializable value) {
+            return global::EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.ToBinary((global::TestNamespace.Subject)value);
         }
 
-        public static int FromBinary(Span<byte> data, out EZBinarySerializer.IBinarySerializable value) {
-            int size = EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.FromBinary(data, out global::TestNamespace.Subject result);
-            value = (EZBinarySerializer.IBinarySerializable)result;
+        public static int FromBinary(Span<byte> data, out global::EZBinarySerializer.IBinarySerializable value) {
+            int size = global::EZBinarySerializer.ValueSerializers.TestNamespaceSubjectValueSerializer.FromBinary(data, out global::TestNamespace.Subject result);
+            value = (global::EZBinarySerializer.IBinarySerializable)result;
             return size;
         }
     }

@@ -382,8 +382,8 @@ namespace EZBinarySerializerSourceGeneration {
             builder.AppendFormat(@"
 namespace EZBinarySerializer.{0} {{
     public partial class BinarySerializer {{
-        public delegate Memory<byte> SerializerDelegate(EZBinarySerializer.IBinarySerializable value);
-        public delegate int DeserializerDelegate(Span<byte> data, out EZBinarySerializer.IBinarySerializable value);
+        public delegate Memory<byte> SerializerDelegate(global::EZBinarySerializer.IBinarySerializable value);
+        public delegate int DeserializerDelegate(Span<byte> data, out global::EZBinarySerializer.IBinarySerializable value);
         public static Dictionary<string, SerializerDelegate> SerializerMethodsByTypeName = new() {{",
                info.AssemblyName
            );
@@ -445,7 +445,7 @@ namespace EZBinarySerializer.{0} {{
             StringBuilder builder = new();
             builder.AppendFormat(@"
 namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer : EZBinarySerializer.{1}.BinarySerializer {{
+    public partial class BinarySerializer : global::EZBinarySerializer.{1}.BinarySerializer {{
         static BinarySerializer() {{",
                 info.TypeInfo.AssemblyName,
                 info.InheritedAssemblyName

@@ -22,13 +22,13 @@ namespace EZBinarySerializer.ValueSerializers {
     class TestNamespaceDictionaryBookValueSerializer : IValueSerializer<global::TestNamespace.DictionaryBook> {
         public static int FromBinary(Span<byte> data, out global::TestNamespace.DictionaryBook value) {
             int cursor = 0;
-            cursor += EZBinarySerializer.Tests.BinarySerializer.FromBinary(
+            cursor += global::EZBinarySerializer.Tests.BinarySerializer.FromBinary(
                 data[
                     cursor..
                 ],
                 out int size
             );
-            cursor += EZBinarySerializer.Tests.BinarySerializer.FromBinary(
+            cursor += global::EZBinarySerializer.Tests.BinarySerializer.FromBinary(
                 data[
                     cursor..
                 ],
@@ -51,10 +51,10 @@ namespace EZBinarySerializer.ValueSerializers {
                 value.DefinitionsByWordName
             ));
             size += bytesList[bytesList.Count - 1].Length;
-            var typeNameBytes = EZBinarySerializer.Tests.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
+            var typeNameBytes = global::EZBinarySerializer.Tests.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
             size += typeNameBytes.Length;
             size += sizeof(int);
-            var sizeBytes = EZBinarySerializer.Tests.BinarySerializer.ToBinary(size);
+            var sizeBytes = global::EZBinarySerializer.Tests.BinarySerializer.ToBinary(size);
             Memory<byte> data = new byte[size];
             int cursor = 0;
             sizeBytes.CopyTo(
@@ -76,28 +76,28 @@ namespace EZBinarySerializer.ValueSerializers {
 namespace EZBinarySerializer.Tests {
     public partial class BinarySerializer {
         public static int FromBinary(Span<byte> data, out global::TestNamespace.DictionaryBook value) {
-            return EZBinarySerializer.ValueSerializers.TestNamespaceDictionaryBookValueSerializer.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.TestNamespaceDictionaryBookValueSerializer.FromBinary(data, out value);
         }
 
         public static Memory<byte> ToBinary(global::TestNamespace.DictionaryBook value) {
-            return EZBinarySerializer.ValueSerializers.TestNamespaceDictionaryBookValueSerializer.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.TestNamespaceDictionaryBookValueSerializer.ToBinary(value);
         }
     }
 }
 namespace TestNamespace {
-    public partial class DictionaryBook : EZBinarySerializer.IBinarySerializable {
+    public partial class DictionaryBook : global::EZBinarySerializer.IBinarySerializable {
         public override string FullyQualifiedTypeName {
             get {
                 return"global::TestNamespace.DictionaryBook";
             }
         }
-        public new static Memory<byte> ToBinary(EZBinarySerializer.IBinarySerializable value) {
-            return EZBinarySerializer.ValueSerializers.TestNamespaceDictionaryBookValueSerializer.ToBinary((global::TestNamespace.DictionaryBook)value);
+        public new static Memory<byte> ToBinary(global::EZBinarySerializer.IBinarySerializable value) {
+            return global::EZBinarySerializer.ValueSerializers.TestNamespaceDictionaryBookValueSerializer.ToBinary((global::TestNamespace.DictionaryBook)value);
         }
 
-        public new static int FromBinary(Span<byte> data, out EZBinarySerializer.IBinarySerializable value) {
-            int size = EZBinarySerializer.ValueSerializers.TestNamespaceDictionaryBookValueSerializer.FromBinary(data, out global::TestNamespace.DictionaryBook result);
-            value = (EZBinarySerializer.IBinarySerializable)result;
+        public new static int FromBinary(Span<byte> data, out global::EZBinarySerializer.IBinarySerializable value) {
+            int size = global::EZBinarySerializer.ValueSerializers.TestNamespaceDictionaryBookValueSerializer.FromBinary(data, out global::TestNamespace.DictionaryBook result);
+            value = (global::EZBinarySerializer.IBinarySerializable)result;
             return size;
         }
     }

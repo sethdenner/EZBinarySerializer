@@ -141,7 +141,12 @@ namespace EZBinarySerializerSourceGeneration {
             AssemblyName = info.AssemblyName;
             foreach (var type in info.Types) {
                 if (type is { } value) {
-                    string fileName = $"BinarySerializer.{value.TypeName}ArrayValueSerializer.g.cs";
+                    string fileName = $"BinarySerializer.{
+                        value.GetFullyQualifiedTypeName().Replace(
+                            "global::", ""
+                        ).Replace(
+                            ".", ""
+                        )}ArrayValueSerializer.g.cs";
                     if (!GeneratedFileNames.Contains(fileName)) {
                         BinarySerializerStaticSourceHelper sourceHelper = new(AssemblyName);
                         string result = string.Join(
@@ -216,11 +221,11 @@ namespace EZBinarySerializer.ValueSerializers {{
 namespace EZBinarySerializer.{3} {{
     public partial class BinarySerializer {{
         public static int FromBinary(Span<byte> data, out {0}[] value) {{
-            return EZBinarySerializer.ValueSerializers.{1}.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.{1}.FromBinary(data, out value);
         }}
 
         public static Memory<byte> ToBinary({0}[] value) {{
-            return EZBinarySerializer.ValueSerializers.{1}.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.{1}.ToBinary(value);
         }}
     }}
 }}",

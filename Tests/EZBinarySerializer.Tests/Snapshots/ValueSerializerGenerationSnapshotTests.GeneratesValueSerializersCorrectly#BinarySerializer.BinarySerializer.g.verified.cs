@@ -20,8 +20,8 @@
 
 namespace EZBinarySerializer.Tests {
     public partial class BinarySerializer {
-        public delegate Memory<byte> SerializerDelegate(EZBinarySerializer.IBinarySerializable value);
-        public delegate int DeserializerDelegate(Span<byte> data, out EZBinarySerializer.IBinarySerializable value);
+        public delegate Memory<byte> SerializerDelegate(global::EZBinarySerializer.IBinarySerializable value);
+        public delegate int DeserializerDelegate(Span<byte> data, out global::EZBinarySerializer.IBinarySerializable value);
         public static Dictionary<string, SerializerDelegate> SerializerMethodsByTypeName = new() {
             { "global::TestNamespace.DictionaryBook", global::TestNamespace.DictionaryBook.ToBinary },
             { "global::TestNamespace.Library", global::TestNamespace.Library.ToBinary },

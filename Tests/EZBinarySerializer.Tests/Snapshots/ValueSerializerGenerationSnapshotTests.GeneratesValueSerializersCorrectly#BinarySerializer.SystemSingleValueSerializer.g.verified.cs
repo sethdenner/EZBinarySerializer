@@ -39,11 +39,11 @@ namespace EZBinarySerializer.ValueSerializers {
 namespace EZBinarySerializer.Tests {
     public partial class BinarySerializer {
         public static int FromBinary(Span<byte> data, out float value) {
-            return EZBinarySerializer.ValueSerializers.SystemSingleValueSerializer.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.SystemSingleValueSerializer.FromBinary(data, out value);
         }
 
         public static Memory<byte> ToBinary(float value) {
-            return EZBinarySerializer.ValueSerializers.SystemSingleValueSerializer.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.SystemSingleValueSerializer.ToBinary(value);
         }
     }
 }

@@ -60,11 +60,11 @@ namespace EZBinarySerializer.ValueSerializers {
 namespace EZBinarySerializer.Tests {
     public partial class BinarySerializer {
         public static int FromBinary(Span<byte> data, out string value) {
-            return EZBinarySerializer.ValueSerializers.SystemStringValueSerializer.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.SystemStringValueSerializer.FromBinary(data, out value);
         }
 
         public static Memory<byte> ToBinary(string value) {
-            return EZBinarySerializer.ValueSerializers.SystemStringValueSerializer.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.SystemStringValueSerializer.ToBinary(value);
         }
     }
 }

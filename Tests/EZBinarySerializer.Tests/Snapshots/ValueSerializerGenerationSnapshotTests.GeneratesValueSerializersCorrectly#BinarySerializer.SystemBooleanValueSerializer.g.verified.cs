@@ -40,11 +40,11 @@ namespace EZBinarySerializer.ValueSerializers {
 namespace EZBinarySerializer.Tests {
     public partial class BinarySerializer {
         public static int FromBinary(Span<byte> data, out bool value) {
-            return EZBinarySerializer.ValueSerializers.SystemBooleanValueSerializer.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.SystemBooleanValueSerializer.FromBinary(data, out value);
         }
 
         public static Memory<byte> ToBinary(bool value) {
-            return EZBinarySerializer.ValueSerializers.SystemBooleanValueSerializer.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.SystemBooleanValueSerializer.ToBinary(value);
         }
     }
 }

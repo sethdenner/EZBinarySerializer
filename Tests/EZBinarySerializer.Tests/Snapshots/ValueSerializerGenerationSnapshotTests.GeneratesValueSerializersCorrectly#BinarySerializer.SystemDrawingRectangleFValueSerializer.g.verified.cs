@@ -73,11 +73,11 @@ namespace EZBinarySerializer.ValueSerializers {
 namespace EZBinarySerializer.Tests {
    public partial class BinarySerializer {
         public static int FromBinary(Span<byte> data, out RectangleF value) {
-            return EZBinarySerializer.ValueSerializers.SystemDrawingRectangleFValueSerializer.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.SystemDrawingRectangleFValueSerializer.FromBinary(data, out value);
         }
 
         public static Memory<byte> ToBinary(RectangleF value) {
-            return EZBinarySerializer.ValueSerializers.SystemDrawingRectangleFValueSerializer.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.SystemDrawingRectangleFValueSerializer.ToBinary(value);
         }
     }
 }

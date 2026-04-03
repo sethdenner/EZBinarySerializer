@@ -66,11 +66,11 @@ namespace EZBinarySerializer.ValueSerializers {
 namespace EZBinarySerializer.Tests {
     public partial class BinarySerializer {
         public static int FromBinary(Span<byte> data, out Vector3 value) {
-            return EZBinarySerializer.ValueSerializers.SystemNumericsVector3ValueSerializer.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.SystemNumericsVector3ValueSerializer.FromBinary(data, out value);
         }
 
         public static Memory<byte> ToBinary(Vector3 value) {
-            return EZBinarySerializer.ValueSerializers.SystemNumericsVector3ValueSerializer.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.SystemNumericsVector3ValueSerializer.ToBinary(value);
         }
     }
 }

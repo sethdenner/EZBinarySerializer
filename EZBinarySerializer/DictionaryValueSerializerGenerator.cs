@@ -231,11 +231,11 @@ namespace EZBinarySerializer.ValueSerializers {{
 namespace EZBinarySerializer.{6} {{
     public partial class BinarySerializer {{
         public static int FromBinary(Span<byte> data, out {0}<{2}, {4}> value) {{
-            return EZBinarySerializer.ValueSerializers.{1}.FromBinary(data, out value);
+            return global::EZBinarySerializer.ValueSerializers.{1}.FromBinary(data, out value);
         }}
 
         public static Memory<byte> ToBinary({0}<{2}, {4}> value) {{
-            return EZBinarySerializer.ValueSerializers.{1}.ToBinary(value);
+            return global::EZBinarySerializer.ValueSerializers.{1}.ToBinary(value);
         }}
     }}
 }}",
