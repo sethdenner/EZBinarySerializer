@@ -19,7 +19,7 @@
  */
 
 namespace EZBinarySerializer.ValueSerializers {
-    class TestNamespaceIPersonValueSerializer : IValueSerializer<global::TestNamespace.IPerson> {
+    public class TestNamespaceIPersonValueSerializer : IValueSerializer<global::TestNamespace.IPerson> {
         public static int FromBinary(Span<byte> data, out global::TestNamespace.IPerson value) {
             string typeName = IBinarySerializable.PeekTypeName(data);
             int size = global::EZBinarySerializer.Tests.BinarySerializer.DeserializerMethodsByTypeName[typeName](

@@ -293,7 +293,7 @@ namespace EZBinarySerializer.{2} {{
             }
             builder.AppendFormat(@"
 namespace EZBinarySerializer.ValueSerializers {{
-    class {0} : IValueSerializer<{1}> {{
+    public class {0} : IValueSerializer<{1}> {{
         public static int FromBinary(Span<byte> data, out {1} value) {{
             string typeName = IBinarySerializable.PeekTypeName(data);
             int size = global::EZBinarySerializer.{2}.BinarySerializer.DeserializerMethodsByTypeName[typeName](
