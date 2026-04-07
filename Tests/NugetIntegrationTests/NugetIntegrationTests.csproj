@@ -5,12 +5,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <InheritedBinarySerializerAssemblyName>SampleModel</InheritedBinarySerializerAssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EZBinarySerializer" Version="0.1.0-beta" />
+      <CompilerVisibleProperty Include="InheritedBinarySerializerAssemblyName" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="EZBinarySerializer" Version="0.1.1-beta" />
+  </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\SampleModel\SampleModel.csproj" />
+    </ItemGroup>
   <ItemGroup>
     <Compile Include="..\IntegrationTests\*.cs" Link="%(Filename)%(Extension)"/>
     <Compile Include="..\IntegrationTests\Model\*.cs" Link="%(Filename)%(Extension)"/>

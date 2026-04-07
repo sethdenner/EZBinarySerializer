@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EZBinarySerializer\EZBinarySerializer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    <ProjectReference Include="..\..\SampleModel\SampleModel.csproj" />
+    <ProjectReference Include="..\SampleModel\SampleModel.csproj" />
   </ItemGroup>
 
 </Project>
