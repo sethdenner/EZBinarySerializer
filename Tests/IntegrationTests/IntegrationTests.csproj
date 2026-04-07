@@ -5,8 +5,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <InheritedBinarySerializerAssemblyName>SampleModel</InheritedBinarySerializerAssemblyName>
   </PropertyGroup>
 
+    <ItemGroup>
+        <CompilerVisibleProperty Include="InheritedBinarySerializerAssemblyName" />
+    </ItemGroup>
+    
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
@@ -20,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EZBinarySerializer\EZBinarySerializer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\SampleModel\SampleModel.csproj" />
   </ItemGroup>
 
 </Project>

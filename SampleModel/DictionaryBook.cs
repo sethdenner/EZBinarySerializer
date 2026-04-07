@@ -17,7 +17,7 @@
  */
 using EZBinarySerializer;
 
-namespace IntegrationTests.Model {
+namespace SampleModel {
     [BinarySerializable]
     public partial class DictionaryBook : Book {
         public Dictionary<string, string> DefinitionsByWordName { get; set; } = [];

@@ -18,7 +18,7 @@
 using EZBinarySerializer;
 using System.Security.Cryptography;
 
-namespace IntegrationTests.Model {
+namespace SampleModel {
     [BinarySerializable]
     public partial class Student : IPerson {
         public string Name { get; set; } = string.Empty;

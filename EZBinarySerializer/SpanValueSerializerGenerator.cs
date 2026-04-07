@@ -204,17 +204,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             return data;
         }}
     }}
-}}
-namespace EZBinarySerializer.{3} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out Span<{0}> value) {{
-            return EZBinarySerializer.ValueSerializers.{1}.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(Span<{0}> value) {{
-            return EZBinarySerializer.ValueSerializers.{1}.ToBinary(value);
-        }}
-    }}
 }}",
                 info.TypeArguments[0].GetFullyQualifiedTypeName(),
                 info.GetValueSerializerName(),

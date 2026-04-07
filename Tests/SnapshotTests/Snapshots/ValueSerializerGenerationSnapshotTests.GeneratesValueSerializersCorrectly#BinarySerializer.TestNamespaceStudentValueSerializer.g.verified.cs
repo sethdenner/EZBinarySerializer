@@ -22,13 +22,13 @@ namespace EZBinarySerializer.ValueSerializers {
     class TestNamespaceStudentValueSerializer : IValueSerializer<global::TestNamespace.Student> {
         public static int FromBinary(Span<byte> data, out global::TestNamespace.Student value) {
             int cursor = 0;
-            cursor += global::EZBinarySerializer.Tests.BinarySerializer.FromBinary(
+            cursor += SystemInt32ValueSerializer.FromBinary(
                 data[
                     cursor..
                 ],
                 out int size
             );
-            cursor += global::EZBinarySerializer.Tests.BinarySerializer.FromBinary(
+            cursor += SystemStringValueSerializer.FromBinary(
                 data[
                     cursor..
                 ],
@@ -69,10 +69,10 @@ namespace EZBinarySerializer.ValueSerializers {
                 value.Subjects
             ));
             size += bytesList[bytesList.Count - 1].Length;
-            var typeNameBytes = global::EZBinarySerializer.Tests.BinarySerializer.ToBinary(value.FullyQualifiedTypeName);
+            var typeNameBytes = SystemStringValueSerializer.ToBinary(value.FullyQualifiedTypeName);
             size += typeNameBytes.Length;
             size += sizeof(int);
-            var sizeBytes = global::EZBinarySerializer.Tests.BinarySerializer.ToBinary(size);
+            var sizeBytes = SystemInt32ValueSerializer.ToBinary(size);
             Memory<byte> data = new byte[size];
             int cursor = 0;
             sizeBytes.CopyTo(
@@ -88,17 +88,6 @@ namespace EZBinarySerializer.ValueSerializers {
             }
             
             return data;
-        }
-    }
-}
-namespace EZBinarySerializer.Tests {
-    public partial class BinarySerializer {
-        public static int FromBinary(Span<byte> data, out global::TestNamespace.Student value) {
-            return global::EZBinarySerializer.ValueSerializers.TestNamespaceStudentValueSerializer.FromBinary(data, out value);
-        }
-
-        public static Memory<byte> ToBinary(global::TestNamespace.Student value) {
-            return global::EZBinarySerializer.ValueSerializers.TestNamespaceStudentValueSerializer.ToBinary(value);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using EZBinarySerializer;
-using IntegrationTests.Model;
+using SampleModel;
 namespace IntegrationTests;
 
 public class SampleModelTests {

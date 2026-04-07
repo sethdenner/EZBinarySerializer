@@ -858,17 +858,6 @@ namespace EZBinarySerializer.ValueSerializers {{
         }}
     }}
 }}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out bool value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemBooleanValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(bool value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemBooleanValueSerializer.ToBinary(value);
-        }}
-    }}
-}}
 ",
                     AssemblyName
                 );
@@ -888,17 +877,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             var data = new byte[1];
             data[0] = (byte)value;
             return data;
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out byte value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemByteValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(byte value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemByteValueSerializer.ToBinary(value);
         }}
     }}
 }}
@@ -929,17 +907,6 @@ namespace EZBinarySerializer.ValueSerializers {{
         }}
     }}
 }}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out char value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemCharValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(char value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemCharValueSerializer.ToBinary(value);
-        }}
-    }}
-}}
 ",
                     AssemblyName
                 );
@@ -963,17 +930,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             }} else {{
                 return Memory<byte>.Empty;
             }}
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out double value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemDoubleValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(double value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemDoubleValueSerializer.ToBinary(value);
         }}
     }}
 }}
@@ -1036,17 +992,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             return data;
         }}
     }}
- }}
-namespace EZBinarySerializer.{0} {{
-   public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out RectangleF value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemDrawingRectangleFValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(RectangleF value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemDrawingRectangleFValueSerializer.ToBinary(value);
-        }}
-    }}
 }}",
                     AssemblyName
                 );
@@ -1070,17 +1015,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             }} else {{
                 return Memory<byte>.Empty;
             }}
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out float value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemSingleValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(float value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemSingleValueSerializer.ToBinary(value);
         }}
     }}
 }}
@@ -1110,17 +1044,6 @@ namespace EZBinarySerializer.ValueSerializers {{
         }}
     }}
 }}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out short value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemInt16ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(short value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemInt16ValueSerializer.ToBinary(value);
-        }}
-    }}
-}}
 ",
                     AssemblyName
                 );
@@ -1138,17 +1061,6 @@ namespace EZBinarySerializer.ValueSerializers {{
 
         public static Memory<byte> ToBinary(int value) {{
             return BitConverter.GetBytes(value);
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out int value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemInt32ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(int value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemInt32ValueSerializer.ToBinary(value);
         }}
     }}
 }}
@@ -1175,17 +1087,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             }} else {{
                 return Memory<byte>.Empty;
             }}
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out long value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemInt64ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(long value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemInt64ValueSerializer.ToBinary(value);
         }}
     }}
 }}
@@ -1231,17 +1132,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             ].Span);
 
             return data;
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out Vector2 value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemNumericsVector2ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(Vector2 value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemNumericsVector2ValueSerializer.ToBinary(value);
         }}
     }}
 }}
@@ -1295,17 +1185,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             ].Span);
 
             return data;
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out Vector3 value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemNumericsVector3ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(Vector3 value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemNumericsVector3ValueSerializer.ToBinary(value);
         }}
     }}
 }}
@@ -1480,17 +1359,6 @@ namespace EZBinarySerializer.ValueSerializers {{
         }}
     }}
 }}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out Matrix4x4 value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemNumericsMatrix4x4ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(Matrix4x4 value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemNumericsMatrix4x4ValueSerializer.ToBinary(value);
-        }}
-    }}
-}}
 ",
                     AssemblyName
                 );
@@ -1538,17 +1406,6 @@ namespace EZBinarySerializer.ValueSerializers {{
         }}
     }}
 }}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out string value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemStringValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(string value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemStringValueSerializer.ToBinary(value);
-        }}
-    }}
-}}
 ",
                     AssemblyName
                 );
@@ -1572,17 +1429,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             }} else {{
                 return Memory<byte>.Empty;
             }}
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out ushort value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemUInt16ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(ushort value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemUInt16ValueSerializer.ToBinary(value);
         }}
     }}
 }}
@@ -1612,17 +1458,6 @@ namespace EZBinarySerializer.ValueSerializers {{
         }}
     }}
 }}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out uint value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemUInt32ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(uint value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemUInt32ValueSerializer.ToBinary(value);
-        }}
-    }}
-}}
 ",
                     AssemblyName
                 );
@@ -1649,17 +1484,6 @@ namespace EZBinarySerializer.ValueSerializers {{
         }}
     }}
 }}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out ulong value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemUInt64ValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(ulong value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemUInt64ValueSerializer.ToBinary(value);
-        }}
-    }}
-}}
 ",
                     AssemblyName
                 );
@@ -1681,17 +1505,6 @@ namespace EZBinarySerializer.ValueSerializers {{
             var result = new byte[16];
             value.TryWriteBytes(result);
             return result;
-        }}
-    }}
-}}
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer {{
-        public static int FromBinary(Span<byte> data, out Guid value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemGuidValueSerializer.FromBinary(data, out value);
-        }}
-
-        public static Memory<byte> ToBinary(Guid value) {{
-            return global::EZBinarySerializer.ValueSerializers.SystemGuidValueSerializer.ToBinary(value);
         }}
     }}
 }}

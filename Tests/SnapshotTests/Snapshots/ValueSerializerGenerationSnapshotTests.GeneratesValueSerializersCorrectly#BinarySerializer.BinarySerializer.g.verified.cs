@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace EZBinarySerializer.Tests {
+namespace EZBinarySerializer {
     public partial class BinarySerializer {
         public delegate Memory<byte> SerializerDelegate(global::EZBinarySerializer.IBinarySerializable value);
         public delegate int DeserializerDelegate(Span<byte> data, out global::EZBinarySerializer.IBinarySerializable value);

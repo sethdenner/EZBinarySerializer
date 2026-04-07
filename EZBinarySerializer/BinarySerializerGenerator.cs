@@ -379,7 +379,7 @@ namespace EZBinarySerializer {
         ) info) {
             StringBuilder builder = new();
             builder.AppendFormat(@"
-namespace EZBinarySerializer.{0} {{
+namespace EZBinarySerializer {{
     public partial class BinarySerializer {{
         public delegate Memory<byte> SerializerDelegate(global::EZBinarySerializer.IBinarySerializable value);
         public delegate int DeserializerDelegate(Span<byte> data, out global::EZBinarySerializer.IBinarySerializable value);
@@ -437,17 +437,18 @@ namespace EZBinarySerializer.{0} {{
             return builder;
         }
 
-        private StringBuilder GenerateBinarySerializerSubClass(((
+        private StringBuilder GenerateBinarySerializerExtensionClass(((
             ImmutableArray<BinarySerializableTypeInfo?> Types,
             string? AssemblyName
         ) TypeInfo, string? InheritedAssemblyName) info) {
             StringBuilder builder = new();
-            builder.AppendFormat(@"
-namespace EZBinarySerializer.{0} {{
-    public partial class BinarySerializer : global::EZBinarySerializer.{1}.BinarySerializer {{
-        static BinarySerializer() {{",
-                info.TypeInfo.AssemblyName,
-                info.InheritedAssemblyName
+            builder.Append(@$"
+using System.Runtime.CompilerServices;
+
+namespace EZBinarySerializer {{
+    public partial class BinarySerializer{info.TypeInfo.AssemblyName}Extensions {{
+        [ModuleInitializer]
+        internal static void AddBinarySerializerMethods() {{"
             );
             foreach (var type in info.TypeInfo.Types) {
                 if (
@@ -459,7 +460,7 @@ namespace EZBinarySerializer.{0} {{
                 }
 
                 builder.AppendFormat(@"
-            SerializerMethodsByTypeName[""{0}""] = {0}.ToBinary;",
+            BinarySerializer.SerializerMethodsByTypeName[""{0}""] = {0}.ToBinary;",
                     type.GetFullyQualifiedTypeName()
                 );
             }
@@ -473,7 +474,7 @@ namespace EZBinarySerializer.{0} {{
                 }
 
                 builder.AppendFormat(@"
-            DeserializerMethodsByTypeName[""{0}""] = {0}.FromBinary;",
+            BinarySerializer.DeserializerMethodsByTypeName[""{0}""] = {0}.FromBinary;",
                     type.GetFullyQualifiedTypeName()
                 );
             }
@@ -492,7 +493,7 @@ namespace EZBinarySerializer.{0} {{
         ) TypeInfo, string? InheritedAssemblyName) info) {
             StringBuilder builder = new();
             if (null != info.InheritedAssemblyName) {
-                builder = GenerateBinarySerializerSubClass(info);
+                builder = GenerateBinarySerializerExtensionClass(info);
             } else {
                 builder = GenerateBinarySerializerClass(info.TypeInfo);
             }

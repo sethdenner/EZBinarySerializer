@@ -16,29 +16,37 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 using EZBinarySerializer;
+using System.Numerics;
 using System.Security.Cryptography;
 
-namespace IntegrationTests.Model {
+namespace SampleModel {
     [BinarySerializable]
-    public partial class Teacher : IPerson {
-        public string Name { get; set; } = string.Empty;
-        public Subject SubjectTaught = new();
+    public partial class School : IBuilding {
+        public List<Teacher> Teachers = [];
         public List<Student> Students = [];
 
-        public static bool operator ==(Teacher teacher1, Teacher teacher2) {
-            if (teacher1 is null) {
-                return teacher2 is null;
-            }
-
-            return teacher1.Equals(teacher2);
+        public Vector2 GeoCoordinates {
+            get; set;
         }
 
-        public static bool operator !=(Teacher teacher1, Teacher teacher2) {
-            if (teacher1 is null) {
-                return teacher2 is not null;
+        public static bool operator ==(School school1, School school2) {
+            if (school1 is null) {
+                return school2 is null;
             }
 
-            return !teacher1.Equals(teacher2);
+            return school1.Equals(school2);
+        }
+
+        public static bool operator !=(School school1, School school2) {
+            if (school1 is null) {
+                return school2 is not null;
+            }
+
+            return !school1.Equals(school2);
+        }
+
+        public override bool Equals(object? obj) {
+            return Equals(obj as School);
         }
 
         public override int GetHashCode() {
@@ -49,29 +57,30 @@ namespace IntegrationTests.Model {
             );
         }
 
-        public bool Equals(IPerson? other) {
+        public bool Equals(IBuilding? other) {
             if (
-                other is not Teacher otherTeacher ||
-                Name != otherTeacher.Name ||
-                SubjectTaught != otherTeacher.SubjectTaught ||
-                Students.Count != otherTeacher.Students?.Count
+                other is not School otherSchool ||
+                Teachers.Count != otherSchool.Teachers.Count ||
+                Students.Count != otherSchool.Students.Count ||
+                GeoCoordinates != otherSchool.GeoCoordinates
             ) {
                 return false;
             }
-
+            for (int i = 0; i < Teachers.Count; ++i) {
+                var teacher = Teachers[i];
+                var otherTeacher = otherSchool.Teachers[i];
+                if (teacher != otherTeacher) {
+                    return false;
+                }
+            }
             for (int i = 0; i < Students.Count; ++i) {
                 var student = Students[i];
-                var otherStudent = otherTeacher.Students[i];
+                var otherStudent = otherSchool.Students[i];
                 if (student != otherStudent) {
                     return false;
                 }
             }
-
             return true;
-        }
-
-        public override bool Equals(object? obj) {
-            return Equals(obj as Teacher);
         }
     }
 }

@@ -34,14 +34,3 @@ namespace EZBinarySerializer.ValueSerializers {
         }
     }
 }
-namespace EZBinarySerializer.Tests {
-    public partial class BinarySerializer {
-        public static int FromBinary(Span<byte> data, out Guid value) {
-            return global::EZBinarySerializer.ValueSerializers.SystemGuidValueSerializer.FromBinary(data, out value);
-        }
-
-        public static Memory<byte> ToBinary(Guid value) {
-            return global::EZBinarySerializer.ValueSerializers.SystemGuidValueSerializer.ToBinary(value);
-        }
-    }
-}

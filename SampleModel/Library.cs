@@ -16,48 +16,52 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 using EZBinarySerializer;
+using System.Numerics;
 using System.Security.Cryptography;
 
-namespace IntegrationTests.Model {
+namespace SampleModel {
     [BinarySerializable]
-    public partial class District : IEquatable<District> {
-        public List<IBuilding> Buildings = [];
+    public partial class Library : IBuilding {
+        public Dictionary<string, Book> BooksByTitle = [];
 
-        public bool Equals(District? other) {
+        public Vector2 GeoCoordinates {
+            get; set;
+        }
+
+        public bool Equals(IBuilding? other) {
             if (
-                Buildings.Count != other?.Buildings.Count
+                other is not Library library ||
+                BooksByTitle.Count != library.BooksByTitle.Count
             ) {
                 return false;
             }
 
-            for (int i = 0; i < Buildings.Count; ++i) {
-                var building = Buildings[i];
-                var otherBuilding = other?.Buildings[i];
-                if (!building.Equals(otherBuilding)) {
+            foreach (var item in BooksByTitle) {
+                if (
+                    !library.BooksByTitle.TryGetValue(item.Key, out var book) ||
+                    book != BooksByTitle[item.Key]
+                ) {
                     return false;
                 }
             }
 
             return true;
         }
-        public static bool operator ==(District district1, District district2) {
-            if (district1 is null) {
-                return district2 is null;
+
+        public static bool operator ==(Library library1, Library library2) {
+            if (library1 is null) {
+                return library2 is null;
             }
 
-            return district1.Equals(district2);
+            return library1.Equals(library2);
         }
 
-        public static bool operator !=(District district1, District district2) {
-            if (district1 is null) {
-                return district2 is not null;
+        public static bool operator !=(Library library1, Library library2) {
+            if (library1 is null) {
+                return library2 is not null;
             }
 
-            return !district1.Equals(district2);
-        }
-
-        public override bool Equals(object? obj) {
-            return Equals(obj as District);
+            return !library1.Equals(library2);
         }
 
         public override int GetHashCode() {
@@ -66,6 +70,10 @@ namespace IntegrationTests.Model {
                     ToBinary(this).ToArray()
                 ).AsSpan()[..sizeof(int)]
             );
+        }
+
+        public override bool Equals(object? obj) {
+            return Equals(obj as Library);
         }
     }
 }

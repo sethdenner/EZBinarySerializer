@@ -18,48 +18,46 @@
 using EZBinarySerializer;
 using System.Security.Cryptography;
 
-namespace IntegrationTests.Model {
+namespace SampleModel {
     [BinarySerializable]
-    public partial class Subject : IEquatable<Subject> {
-        public string Title { get; set; } = string.Empty;
-        public List<Book> Books { get; set; } = [];
+    public partial class District : IEquatable<District> {
+        public List<IBuilding> Buildings = [];
 
-        public bool Equals(Subject? other) {
+        public bool Equals(District? other) {
             if (
-                Title != other?.Title ||
-                Books.Count != other?.Books.Count
+                Buildings.Count != other?.Buildings.Count
             ) {
                 return false;
             }
 
-            for (int i = 0; i < Books.Count; ++i) {
-                var book = Books[i];
-                var otherBook = other.Books[i];
-                if (book != otherBook) {
+            for (int i = 0; i < Buildings.Count; ++i) {
+                var building = Buildings[i];
+                var otherBuilding = other?.Buildings[i];
+                if (!building.Equals(otherBuilding)) {
                     return false;
                 }
             }
 
             return true;
         }
-        public static bool operator ==(Subject subject1, Subject subject2) {
-            if (subject1 is null) {
-                return subject2 is null;
+        public static bool operator ==(District district1, District district2) {
+            if (district1 is null) {
+                return district2 is null;
             }
 
-            return subject1.Equals(subject2);
+            return district1.Equals(district2);
         }
 
-        public static bool operator !=(Subject subject1, Subject subject2) {
-            if (subject1 is null) {
-                return subject2 is not null;
+        public static bool operator !=(District district1, District district2) {
+            if (district1 is null) {
+                return district2 is not null;
             }
 
-            return !subject1.Equals(subject2);
+            return !district1.Equals(district2);
         }
 
         public override bool Equals(object? obj) {
-            return Equals(obj as Subject);
+            return Equals(obj as District);
         }
 
         public override int GetHashCode() {

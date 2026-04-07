@@ -71,14 +71,3 @@ namespace EZBinarySerializer.ValueSerializers {
         }
     }
 }
-namespace EZBinarySerializer.Tests {
-    public partial class BinarySerializer {
-        public static int FromBinary(Span<byte> data, out global::System.Collections.Generic.Dictionary<global::System.String, global::System.String> value) {
-            return global::EZBinarySerializer.ValueSerializers.SystemStringSystemStringSystemCollectionsGenericDictionaryValueSerializer.FromBinary(data, out value);
-        }
-
-        public static Memory<byte> ToBinary(global::System.Collections.Generic.Dictionary<global::System.String, global::System.String> value) {
-            return global::EZBinarySerializer.ValueSerializers.SystemStringSystemStringSystemCollectionsGenericDictionaryValueSerializer.ToBinary(value);
-        }
-    }
-}

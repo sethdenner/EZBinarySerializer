@@ -36,14 +36,3 @@ namespace EZBinarySerializer.ValueSerializers {
         }
     }
 }
-namespace EZBinarySerializer.Tests {
-    public partial class BinarySerializer {
-        public static int FromBinary(Span<byte> data, out char value) {
-            return global::EZBinarySerializer.ValueSerializers.SystemCharValueSerializer.FromBinary(data, out value);
-        }
-
-        public static Memory<byte> ToBinary(char value) {
-            return global::EZBinarySerializer.ValueSerializers.SystemCharValueSerializer.ToBinary(value);
-        }
-    }
-}

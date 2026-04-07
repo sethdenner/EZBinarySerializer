@@ -46,14 +46,3 @@ namespace EZBinarySerializer.ValueSerializers {
         }
     }
 }
-namespace EZBinarySerializer.Tests {
-    public partial class BinarySerializer {
-        public static int FromBinary(Span<byte> data, out global::System.Collections.Generic.List<global::TestNamespace.Book> value) {
-            return global::EZBinarySerializer.ValueSerializers.TestNamespaceBookSystemCollectionsGenericListValueSerializer.FromBinary(data, out value);
-        }
-
-        public static Memory<byte> ToBinary(global::System.Collections.Generic.List<global::TestNamespace.Book> value) {
-            return global::EZBinarySerializer.ValueSerializers.TestNamespaceBookSystemCollectionsGenericListValueSerializer.ToBinary(value);
-        }
-    }
-}

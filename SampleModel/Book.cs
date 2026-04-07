@@ -18,7 +18,7 @@
 using EZBinarySerializer;
 using System.Security.Cryptography;
 
-namespace IntegrationTests.Model {
+namespace SampleModel {
     [BinarySerializable]
     public abstract partial class Book : IEquatable<Book> {
         public string Title = string.Empty;

@@ -16,52 +16,50 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 using EZBinarySerializer;
-using System.Numerics;
 using System.Security.Cryptography;
 
-namespace IntegrationTests.Model {
+namespace SampleModel {
     [BinarySerializable]
-    public partial class Library : IBuilding {
-        public Dictionary<string, Book> BooksByTitle = [];
+    public partial class Subject : IEquatable<Subject> {
+        public string Title { get; set; } = string.Empty;
+        public List<Book> Books { get; set; } = [];
 
-        public Vector2 GeoCoordinates {
-            get; set;
-        }
-
-        public bool Equals(IBuilding? other) {
+        public bool Equals(Subject? other) {
             if (
-                other is not Library library ||
-                BooksByTitle.Count != library.BooksByTitle.Count
+                Title != other?.Title ||
+                Books.Count != other?.Books.Count
             ) {
                 return false;
             }
 
-            foreach (var item in BooksByTitle) {
-                if (
-                    !library.BooksByTitle.TryGetValue(item.Key, out var book) ||
-                    book != BooksByTitle[item.Key]
-                ) {
+            for (int i = 0; i < Books.Count; ++i) {
+                var book = Books[i];
+                var otherBook = other.Books[i];
+                if (book != otherBook) {
                     return false;
                 }
             }
 
             return true;
         }
-
-        public static bool operator ==(Library library1, Library library2) {
-            if (library1 is null) {
-                return library2 is null;
+        public static bool operator ==(Subject subject1, Subject subject2) {
+            if (subject1 is null) {
+                return subject2 is null;
             }
 
-            return library1.Equals(library2);
+            return subject1.Equals(subject2);
         }
 
-        public static bool operator !=(Library library1, Library library2) {
-            if (library1 is null) {
-                return library2 is not null;
+        public static bool operator !=(Subject subject1, Subject subject2) {
+            if (subject1 is null) {
+                return subject2 is not null;
             }
 
-            return !library1.Equals(library2);
+            return !subject1.Equals(subject2);
+        }
+
+        public override bool Equals(object? obj) {
+            return Equals(obj as Subject);
         }
 
         public override int GetHashCode() {
@@ -70,10 +68,6 @@ namespace IntegrationTests.Model {
                     ToBinary(this).ToArray()
                 ).AsSpan()[..sizeof(int)]
             );
-        }
-
-        public override bool Equals(object? obj) {
-            return Equals(obj as Library);
         }
     }
 }

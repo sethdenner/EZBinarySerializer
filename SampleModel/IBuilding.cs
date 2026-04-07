@@ -16,11 +16,12 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 using EZBinarySerializer;
+using System.Numerics;
 
-namespace IntegrationTests.Model {
+namespace SampleModel {
     [BinarySerializable]
-    public partial interface IPerson : IEquatable<IPerson> {
-        public string Name {
+    public partial interface IBuilding : IEquatable<IBuilding> {
+        public Vector2 GeoCoordinates {
             get; set;
         }
     }
