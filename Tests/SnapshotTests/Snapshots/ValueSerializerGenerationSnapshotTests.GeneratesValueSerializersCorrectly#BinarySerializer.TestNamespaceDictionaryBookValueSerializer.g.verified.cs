@@ -19,7 +19,7 @@
  */
 
 namespace EZBinarySerializer.ValueSerializers {
-    class TestNamespaceDictionaryBookValueSerializer : IValueSerializer<global::TestNamespace.DictionaryBook> {
+    public class TestNamespaceDictionaryBookValueSerializer : IValueSerializer<global::TestNamespace.DictionaryBook> {
         public static int FromBinary(Span<byte> data, out global::TestNamespace.DictionaryBook value) {
             int cursor = 0;
             cursor += SystemInt32ValueSerializer.FromBinary(

@@ -136,7 +136,7 @@ namespace EZBinarySerializer {
             }
             builder.AppendFormat(@"
 namespace EZBinarySerializer.ValueSerializers {{
-    class {0}{3} : IValueSerializer<{1}{3}> {4}{{
+    public class {0}{3} : IValueSerializer<{1}{3}> {4}{{
         public static int FromBinary(Span<byte> data, out {1}{3} value) {{
             int cursor = 0;
             cursor += SystemInt32ValueSerializer.FromBinary(

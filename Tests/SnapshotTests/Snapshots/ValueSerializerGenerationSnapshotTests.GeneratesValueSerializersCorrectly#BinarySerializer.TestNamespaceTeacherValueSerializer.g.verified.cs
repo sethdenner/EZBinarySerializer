@@ -19,7 +19,7 @@
  */
 
 namespace EZBinarySerializer.ValueSerializers {
-    class TestNamespaceTeacherValueSerializer : IValueSerializer<global::TestNamespace.Teacher> {
+    public class TestNamespaceTeacherValueSerializer : IValueSerializer<global::TestNamespace.Teacher> {
         public static int FromBinary(Span<byte> data, out global::TestNamespace.Teacher value) {
             int cursor = 0;
             cursor += SystemInt32ValueSerializer.FromBinary(
