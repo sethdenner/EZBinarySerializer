@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EZBinarySerializer" Version="0.1.1-beta" />
+    <PackageReference Include="EZBinarySerializer" Version="0.1.2-beta" />
   </ItemGroup>
 
     <ItemGroup>
