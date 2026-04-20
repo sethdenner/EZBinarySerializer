@@ -34,11 +34,26 @@ namespace EZBinarySerializer.ValueSerializers {
                 ],
                 out string typeName
             );
+            cursor += SystemStringValueSerializer.FromBinary(
+                data[cursor..],
+                out global::System.String __ez__title
+            );
+            cursor += SystemStringValueSerializer.FromBinary(
+                data[cursor..],
+                out global::System.String __ez__text
+            );
+            cursor += SystemSingleValueSerializer.FromBinary(
+                data[cursor..],
+                out global::System.Single __ez__percentageread
+            );
             cursor += SystemStringSystemStringSystemCollectionsGenericDictionaryValueSerializer.FromBinary(
                 data[cursor..],
                 out global::System.Collections.Generic.Dictionary<global::System.String, global::System.String> __ez__definitionsbywordname
             );
             value = new() {
+                Title = __ez__title,
+                Text = __ez__text,
+                PercentageRead = __ez__percentageread,
                 DefinitionsByWordName = __ez__definitionsbywordname,
             };
 
@@ -47,6 +62,18 @@ namespace EZBinarySerializer.ValueSerializers {
         public static Memory<byte> ToBinary(global::TestNamespace.DictionaryBook value) {
             int size = 0;
             List<Memory<byte>> bytesList = [];
+            bytesList.Add(SystemStringValueSerializer.ToBinary(
+                value.Title
+            ));
+            size += bytesList[bytesList.Count - 1].Length;
+            bytesList.Add(SystemStringValueSerializer.ToBinary(
+                value.Text
+            ));
+            size += bytesList[bytesList.Count - 1].Length;
+            bytesList.Add(SystemSingleValueSerializer.ToBinary(
+                value.PercentageRead
+            ));
+            size += bytesList[bytesList.Count - 1].Length;
             bytesList.Add(SystemStringSystemStringSystemCollectionsGenericDictionaryValueSerializer.ToBinary(
                 value.DefinitionsByWordName
             ));

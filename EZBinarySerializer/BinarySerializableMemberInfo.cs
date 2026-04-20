@@ -16,11 +16,11 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 namespace EZBinarySerializer {
-    internal readonly record struct BinarySerializablePropertyInfo {
+    internal readonly record struct BinarySerializableMemberInfo {
         public readonly string MemberName;
         public readonly BinarySerializableTypeInfo MemberTypeInfo;
 
-        public BinarySerializablePropertyInfo(
+        public BinarySerializableMemberInfo(
             string propertyName,
             BinarySerializableTypeInfo propertyTypeInfo
         ) {

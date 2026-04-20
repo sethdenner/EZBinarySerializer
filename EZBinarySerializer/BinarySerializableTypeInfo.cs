@@ -15,8 +15,9 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-using System.Text;
 using Microsoft.CodeAnalysis;
+using System.Text;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
 
 namespace EZBinarySerializer {
     internal class BinarySerializableTypeInfo {
@@ -26,7 +27,7 @@ namespace EZBinarySerializer {
         public readonly List<string> TypeParameterNames;
         public readonly string TypeParameterConstraintString;
         public readonly List<BinarySerializableTypeInfo> TypeArguments;
-        public readonly List<BinarySerializablePropertyInfo> SerializableMemberInfo;
+        public readonly List<BinarySerializableMemberInfo> SerializableMemberInfo;
         public readonly bool IsAbstract;
         public readonly BinarySerializableTypeInfo? AbstractParentTypeInfo;
         public readonly BinarySerializableTypeInfo? EnumUnderlyingType;
@@ -228,27 +229,20 @@ namespace EZBinarySerializer {
             }
         }
 
-        private static List<BinarySerializablePropertyInfo> GetSerializableMemberInfo(INamedTypeSymbol typeSymbol) {
-            List<BinarySerializablePropertyInfo> result = [];
-
-            if (!typeSymbol.GetAttributes().Any(
-                (att) =>
-                    att.AttributeClass is INamedTypeSymbol attributeSymbol && (
-                        attributeSymbol.Name.Equals("BinarySerializable") ||
-                        attributeSymbol.Name.Equals("BinarySerializableAttribute")
-                    )
-                )
-            ) {
-                return result;
+        private static List<BinarySerializableMemberInfo> GetInheritedSerializableMemberInfo(INamedTypeSymbol parentTypeSymbol) {
+            List<BinarySerializableMemberInfo> memberInfo = [];
+            if (parentTypeSymbol.BaseType is INamedTypeSymbol baseType) {
+                memberInfo.AddRange(GetInheritedSerializableMemberInfo(baseType));
             }
 
-            var members = typeSymbol.GetMembers();
+            var members = parentTypeSymbol.GetMembers();
             foreach (var memberSymbol in members) {
                 if (memberSymbol is IPropertySymbol propertySymbol) {
                     if (
                         propertySymbol.IsWriteOnly ||
                         propertySymbol.IsStatic ||
-                        propertySymbol.DeclaredAccessibility != Accessibility.Public
+                        propertySymbol.DeclaredAccessibility != Accessibility.Public ||
+                        propertySymbol.IsOverride
                     ) {
                         continue;
                     }
@@ -265,12 +259,12 @@ namespace EZBinarySerializer {
                     }
 
                     if (propertySymbol.Type is INamedTypeSymbol propertyTypeSymbol) {
-                        result.Add(new(
+                        memberInfo.Add(new(
                             propertySymbol.Name,
                             new(propertyTypeSymbol)
                         ));
                     } else if (propertySymbol.Type is IArrayTypeSymbol arraySymbol) {
-                        result.Add(new(
+                        memberInfo.Add(new(
                             propertySymbol.Name,
                             new(arraySymbol)
                         ));
@@ -294,19 +288,37 @@ namespace EZBinarySerializer {
                     }
 
                     if (fieldSymbol.Type is INamedTypeSymbol fieldTypeSymbol) {
-                        result.Add(new(
+                        memberInfo.Add(new(
                             fieldSymbol.Name,
                             new(fieldTypeSymbol)
                         ));
                     } else if (fieldSymbol.Type is IArrayTypeSymbol arraySymbol) {
-                        result.Add(new(
+                        memberInfo.Add(new(
                             fieldSymbol.Name,
                             new(arraySymbol)
                         ));
                     }
                 }
             }
-            return result;
+
+            return memberInfo;
+        }
+
+        private static List<BinarySerializableMemberInfo> GetSerializableMemberInfo(INamedTypeSymbol typeSymbol) {
+            List<BinarySerializableMemberInfo> result = [];
+
+            if (!typeSymbol.GetAttributes().Any(
+                (att) =>
+                    att.AttributeClass is INamedTypeSymbol attributeSymbol && (
+                        attributeSymbol.Name.Equals("BinarySerializable") ||
+                        attributeSymbol.Name.Equals("BinarySerializableAttribute")
+                    )
+                )
+            ) {
+                return result;
+            }
+
+            return GetInheritedSerializableMemberInfo(typeSymbol);
         }
 
         private static List<BinarySerializableTypeInfo> GetTypeArguments(INamedTypeSymbol typeSymbol) {
