@@ -32,8 +32,10 @@ namespace SampleModel {
         public override bool Equals(Book? other) {
             if (
                 other is not DictionaryBook otherBook ||
-                otherBook.Text != Text
-             ) {
+                otherBook.Text != Text ||
+                otherBook.Title != Title ||
+                otherBook.PercentageRead != PercentageRead
+            ) {
                 return false;
             }
 
