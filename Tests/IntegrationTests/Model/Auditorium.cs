@@ -10,6 +10,8 @@ namespace IntegrationTests.Model {
             set => throw new NotImplementedException();
         }
 
+        public string BuildingName => "Lakeside Concert Hall";
+
         public bool Equals(IBuilding? other) {
             throw new NotImplementedException();
         }

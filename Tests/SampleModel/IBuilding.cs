@@ -21,6 +21,7 @@ using System.Numerics;
 namespace SampleModel {
     [BinarySerializable]
     public partial interface IBuilding : IEquatable<IBuilding> {
+        public string BuildingName { get; }
         public Vector2 GeoCoordinates {
             get; set;
         }

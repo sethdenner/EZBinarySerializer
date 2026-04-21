@@ -233,70 +233,71 @@ namespace EZBinarySerializer {
             List<BinarySerializableMemberInfo> memberInfo = [];
             if (parentTypeSymbol.BaseType is INamedTypeSymbol baseType) {
                 memberInfo.AddRange(GetInheritedSerializableMemberInfo(baseType));
-            }
 
-            var members = parentTypeSymbol.GetMembers();
-            foreach (var memberSymbol in members) {
-                if (memberSymbol is IPropertySymbol propertySymbol) {
-                    if (
-                        propertySymbol.IsWriteOnly ||
-                        propertySymbol.IsStatic ||
-                        propertySymbol.DeclaredAccessibility != Accessibility.Public ||
-                        propertySymbol.IsOverride
-                    ) {
-                        continue;
-                    }
+                var members = parentTypeSymbol.GetMembers();
+                foreach (var memberSymbol in members) {
+                    if (memberSymbol is IPropertySymbol propertySymbol) {
+                        if (
+                            propertySymbol.IsWriteOnly ||
+                            propertySymbol.IsStatic ||
+                            propertySymbol.DeclaredAccessibility != Accessibility.Public ||
+                            propertySymbol.IsOverride ||
+                            null == propertySymbol.SetMethod
+                        ) {
+                            continue;
+                        }
 
-                    if (propertySymbol.GetAttributes().Any(
-                        (att) =>
-                            att.AttributeClass is INamedTypeSymbol attributeSymbol && (
-                                attributeSymbol.Name.Equals("BinarySerializerIgnore") ||
-                                attributeSymbol.Name.Equals("BinarySerializerIgnoreAttribute")
+                        if (propertySymbol.GetAttributes().Any(
+                            (att) =>
+                                att.AttributeClass is INamedTypeSymbol attributeSymbol && (
+                                    attributeSymbol.Name.Equals("BinarySerializerIgnore") ||
+                                    attributeSymbol.Name.Equals("BinarySerializerIgnoreAttribute")
+                                )
                             )
-                        )
-                    ) {
-                        continue;
-                    }
+                        ) {
+                            continue;
+                        }
 
-                    if (propertySymbol.Type is INamedTypeSymbol propertyTypeSymbol) {
-                        memberInfo.Add(new(
-                            propertySymbol.Name,
-                            new(propertyTypeSymbol)
-                        ));
-                    } else if (propertySymbol.Type is IArrayTypeSymbol arraySymbol) {
-                        memberInfo.Add(new(
-                            propertySymbol.Name,
-                            new(arraySymbol)
-                        ));
-                    }
-                } else if (memberSymbol is IFieldSymbol fieldSymbol) {
-                    if (
-                        fieldSymbol.DeclaredAccessibility != Accessibility.Public ||
-                        fieldSymbol.IsStatic
-                    ) {
-                        continue;
-                    }
+                        if (propertySymbol.Type is INamedTypeSymbol propertyTypeSymbol) {
+                            memberInfo.Add(new(
+                                propertySymbol.Name,
+                                new(propertyTypeSymbol)
+                            ));
+                        } else if (propertySymbol.Type is IArrayTypeSymbol arraySymbol) {
+                            memberInfo.Add(new(
+                                propertySymbol.Name,
+                                new(arraySymbol)
+                            ));
+                        }
+                    } else if (memberSymbol is IFieldSymbol fieldSymbol) {
+                        if (
+                            fieldSymbol.DeclaredAccessibility != Accessibility.Public ||
+                            fieldSymbol.IsStatic
+                        ) {
+                            continue;
+                        }
 
-                    if (fieldSymbol.GetAttributes().Any(
-                        (att) =>
-                            att.AttributeClass is INamedTypeSymbol attributeSymbol && (
-                                attributeSymbol.Name.Equals("BinarySerializerIgnore") ||
-                                attributeSymbol.Name.Equals("BinarySerializerIgnoreAttribute")
-                            )
-                    )) {
-                        continue;
-                    }
+                        if (fieldSymbol.GetAttributes().Any(
+                            (att) =>
+                                att.AttributeClass is INamedTypeSymbol attributeSymbol && (
+                                    attributeSymbol.Name.Equals("BinarySerializerIgnore") ||
+                                    attributeSymbol.Name.Equals("BinarySerializerIgnoreAttribute")
+                                )
+                        )) {
+                            continue;
+                        }
 
-                    if (fieldSymbol.Type is INamedTypeSymbol fieldTypeSymbol) {
-                        memberInfo.Add(new(
-                            fieldSymbol.Name,
-                            new(fieldTypeSymbol)
-                        ));
-                    } else if (fieldSymbol.Type is IArrayTypeSymbol arraySymbol) {
-                        memberInfo.Add(new(
-                            fieldSymbol.Name,
-                            new(arraySymbol)
-                        ));
+                        if (fieldSymbol.Type is INamedTypeSymbol fieldTypeSymbol) {
+                            memberInfo.Add(new(
+                                fieldSymbol.Name,
+                                new(fieldTypeSymbol)
+                            ));
+                        } else if (fieldSymbol.Type is IArrayTypeSymbol arraySymbol) {
+                            memberInfo.Add(new(
+                                fieldSymbol.Name,
+                                new(arraySymbol)
+                            ));
+                        }
                     }
                 }
             }

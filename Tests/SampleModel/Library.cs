@@ -28,6 +28,7 @@ namespace SampleModel {
             get; set;
         }
 
+        public string BuildingName => "Lakeside Public Library";
         public bool Equals(IBuilding? other) {
             if (
                 other is not Library library ||

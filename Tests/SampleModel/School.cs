@@ -29,6 +29,8 @@ namespace SampleModel {
             get; set;
         }
 
+        public string BuildingName => "Lakeside Middle School";
+
         public static bool operator ==(School school1, School school2) {
             if (school1 is null) {
                 return school2 is null;
