@@ -173,42 +173,104 @@ namespace EZBinarySerializer {
                 return string.Empty;
             }
 
+            var typeName = info.GetFullyQualifiedTypeName();
+            var valueSerializerName = info.GetValueSerializerName();
+            var keyTypeName = info.TypeArguments[0].GetFullyQualifiedTypeName();
+            var valueTypeName = info.TypeArguments[1].GetFullyQualifiedTypeName();
+            var keyIsEnum = null != info.TypeArguments[0].EnumUnderlyingType;
+            var valueIsEnum = null != info.TypeArguments[1].EnumUnderlyingType;
+            var keyEnumUnderlyingTypeName = info.TypeArguments[0].EnumUnderlyingType?.GetFullyQualifiedTypeName();
+            var valueEnumUnderlyingTypeName = info.TypeArguments[1].EnumUnderlyingType?.GetFullyQualifiedTypeName();
+            var keyValueSerializerName = keyIsEnum ?
+                info.TypeArguments[0].EnumUnderlyingType?.GetValueSerializerName() :
+                info.TypeArguments[0].GetValueSerializerName();
+            var valueValueSerializerName = valueIsEnum ?
+                info.TypeArguments[1].EnumUnderlyingType?.GetValueSerializerName() :
+                info.TypeArguments[1].GetValueSerializerName();
             StringBuilder builder = new();
-            builder.AppendFormat(@"
+            builder.Append($@"
 namespace EZBinarySerializer.ValueSerializers {{
-    public class {1} : IValueSerializer<{0}<{2}, {4}>> {{
-        public static int FromBinary(Span<byte> data, out {0}<{2}, {4}> value) {{
+    public class {valueSerializerName} : IValueSerializer<{typeName}<{keyTypeName}, {valueTypeName}>> {{
+        public static int FromBinary(Span<byte> data, out {typeName}<{keyTypeName}, {valueTypeName}> value) {{
             int cursor = 0;
             int count = BitConverter.ToInt32(data[
                 cursor..(cursor += sizeof(int))
             ]);
             value = [];
-            for (int i = 0; i < count; ++i) {{
-                cursor += {3}.FromBinary(
+            for (int i = 0; i < count; ++i) {{"
+            );
+            if (keyIsEnum) {
+                builder.Append($@"
+                cursor += {keyValueSerializerName}.FromBinary(
                     data[cursor..],
-                    out {2} key
+                    out {keyEnumUnderlyingTypeName} underlyingKey
                 );
-                cursor += {5}.FromBinary(
+                {keyTypeName} key = ({keyTypeName})underlyingKey;"
+                );
+            } else {
+                builder.Append($@"
+                cursor += {keyValueSerializerName}.FromBinary(
                     data[cursor..],
-                    out {4} result
+                    out {keyTypeName} key
+                );"
                 );
+            }
+            if (valueIsEnum) {
+                builder.Append($@"
+                cursor += {valueValueSerializerName}.FromBinary(
+                    data[cursor..],
+                    out {valueEnumUnderlyingTypeName} underlyingValue
+                );
+                {valueTypeName} result = ({valueTypeName})underlyingValue"
+                );
+            } else {
+                builder.Append($@"
+                cursor += {valueValueSerializerName}.FromBinary(
+                    data[cursor..],
+                    out {valueTypeName} result
+                );"
+                );
+            }
+            builder.Append($@"
                 value[key] = result;
             }}
             return cursor;
         }}
 
-        public static Memory<byte> ToBinary({0}<{2}, {4}> value) {{
+        public static Memory<byte> ToBinary({typeName}<{keyTypeName}, {valueTypeName}> value) {{
             int size = 0;
             Span<byte> countBytes = BitConverter.GetBytes(value.Count);
             size += countBytes.Length;
             List<Memory<byte>> itemBytesList = [];
-            foreach (var key in value.Keys) {{
-                var keyBytes = {3}.ToBinary(key);
+            foreach (var key in value.Keys) {{"
+            );
+            if (keyIsEnum) {
+                builder.Append($@"
+                var keyBytes = {keyValueSerializerName}.ToBinary(({keyEnumUnderlyingTypeName})key);
                 size += keyBytes.Length;
-                itemBytesList.Add(keyBytes);
-                var valueBytes = {5}.ToBinary(value[key]);
+                itemBytesList.Add(keyBytes);"
+                );
+            } else {
+                builder.Append($@"
+                var keyBytes = {keyValueSerializerName}.ToBinary(key);
+                size += keyBytes.Length;
+                itemBytesList.Add(keyBytes);"
+                );
+            }
+            if (valueIsEnum) {
+                builder.Append($@"
+                var valueBytes = {valueValueSerializerName}.ToBinary(({valueEnumUnderlyingTypeName})value[key]);
                 size += valueBytes.Length;
-                itemBytesList.Add(valueBytes);
+                itemBytesList.Add(valueBytes);"
+                );
+            } else {
+                builder.Append($@"
+                var valueBytes = {valueValueSerializerName}.ToBinary(value[key]);
+                size += valueBytes.Length;
+                itemBytesList.Add(valueBytes);"
+                );
+            }
+            builder.Append($@"
             }}
 
             Memory<byte> data = new byte[size];
@@ -227,14 +289,7 @@ namespace EZBinarySerializer.ValueSerializers {{
             return data;
         }}
     }}
-}}",
-                info.GetFullyQualifiedTypeName(),
-                info.GetValueSerializerName(),
-                info.TypeArguments[0].GetFullyQualifiedTypeName(),
-                info.TypeArguments[0].GetValueSerializerName(),
-                info.TypeArguments[1].GetFullyQualifiedTypeName(),
-                info.TypeArguments[1].GetValueSerializerName(),
-                AssemblyName
+}}"
             );
             return builder.ToString();
         }

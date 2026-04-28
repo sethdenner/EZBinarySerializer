@@ -17,7 +17,6 @@
  */
 using Microsoft.CodeAnalysis;
 using System.Text;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
 
 namespace EZBinarySerializer {
     internal class BinarySerializableTypeInfo {

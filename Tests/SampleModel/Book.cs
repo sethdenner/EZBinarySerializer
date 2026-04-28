@@ -22,6 +22,7 @@ namespace SampleModel {
     [BinarySerializable]
     public abstract partial class Book : IEquatable<Book> {
         public string Title = string.Empty;
+        public BookGenere Genere { get; set; }
         public abstract string Text { get; set; }
         public float PercentageRead = 0.0f;
 

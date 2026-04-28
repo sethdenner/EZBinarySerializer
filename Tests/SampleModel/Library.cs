@@ -23,6 +23,7 @@ namespace SampleModel {
     [BinarySerializable]
     public partial class Library : IBuilding {
         public Dictionary<string, Book> BooksByTitle = [];
+        public Dictionary<BookGenere, Book> BooksByGenere = [];
 
         public Vector2 GeoCoordinates {
             get; set;
